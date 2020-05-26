@@ -3,12 +3,12 @@ using aspnetcore.Helpers;
 
 namespace aspnetcore.Controllers.Resources
 {
-    public class GeneralResource
+    public class GeneralResponse
     {
         public object Result { get; set; }
         public Result Error { get; set; }
 
-        public GeneralResource()
+        public GeneralResponse()
         {
             Result = null;
             Error = null;

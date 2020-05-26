@@ -32,79 +32,6 @@
   }
 }
 
-.ftco-services {
-  color: #1d150b;
-  background: #c49b63;
-}
-
-.ftco-services .heading-section h2 {
-  color: black;
-}
-
-.services .icon {
-  width: 100px;
-  height: 100px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 0;
-  bordeR: 1px solid #674c27;
-}
-
-.services .icon span {
-  font-size: 60px;
-  color: #1d150b;
-  z-index: 1;
-}
-
-.services h3 {
-  font-size: 18px;
-  margin-bottom: 20px;
-  color: black;
-  text-transform: uppercase;
-}
-
-.services .media-body {
-  color: #1d150b;
-}
-
-.services-wrap {
-  width: 100%;
-  display: block;
-}
-
-@media (max-width: 991.98px) {
-  .services-wrap {
-    margin-bottom: 30px;
-  }
-}
-
-.services-wrap .img,
-.services-wrap .text {
-  width: 50%;
-}
-
-.services-wrap .img {
-  display: block;
-}
-
-.services-wrap .text {
-  background: rgba(0, 0, 0, 0.2);
-  position: relative;
-}
-
-.services-wrap .text h3 {
-  font-size: 20px;
-}
-
-.services-wrap .text .price {
-  font-size: 16px;
-  margin-bottom: 0;
-}
-
-.services-wrap .text .price span {
-  color: #c49b63;
-}
-
 .ftco-gallery {
   padding: 0;
 }
@@ -230,28 +157,7 @@
   font-size: 16px;
 }
 
-.menu-entry {
-  margin-bottom: 30px;
-}
 
-.menu-entry .img {
-  display: block;
-  height: 200px;
-}
-
-.menu-entry .text h3 {
-  font-size: 18px;
-  text-transform: uppercase;
-}
-
-.menu-entry .text h3 a {
-  color: #fff;
-}
-
-.menu-entry .text .price span {
-  color: #fff;
-  font-size: 18px;
-}
 
 .product-details h3 {
   text-transform: uppercase;
@@ -980,10 +886,7 @@ textarea.form-control {
   border: 2px solid #000;
 }
 
-.ftco-animate {
-  opacity: 0;
-  visibility: hidden;
-}
+
 
 .bg-primary {
   background: #c49b63 !important;
@@ -1007,10 +910,7 @@ textarea.form-control {
   font-size: 24px;
 }
 
-.ftco-section {
-  padding: 7em 0;
-  position: relative;
-}
+
 
 @media (max-width: 767.98px) {
   .ftco-section {
@@ -1064,28 +964,7 @@ textarea.form-control {
   }
 }
 
-.heading-section {
-  z-index: 0;
-}
 
-.heading-section .subheading {
-  font-size: 50px;
-  display: block;
-  margin-bottom: 0;
-  font-family: "Great Vibes", cursive;
-  color: #c49b63;
-  line-height: 1;
-  margin-bottom: -21px;
-  z-index: 1;
-}
-
-.heading-section h2 {
-  z-index: -1;
-  font-size: 40px;
-  font-weight: 700;
-  position: relative;
-  text-transform: uppercase;
-}
 
 @media (max-width: 767.98px) {
   .heading-section h2 {
@@ -1210,14 +1089,6 @@ textarea.form-control {
   margin: 0 auto;
 }
 
-.hero-wrap,
-.img,
-.blog-img,
-.user-img {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
 
 @media (max-width: 767.98px) {
   .img-about {
@@ -1367,50 +1238,7 @@ textarea.form-control {
   margin-bottom: 0;
 }
 
-.ftco-menu .nav-pills .nav-link {
-  border-radius: 0;
-  margin-bottom: 0;
-  color: #c49b63;
-  font-size: 18px;
-  font-weight: 400;
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px solid #c49b63;
-  margin-left: 5px;
-  margin-right: 5px;
-}
 
-.ftco-menu .nav-pills .nav-link.active,
-.ftco-menu .nav-pills .nav-link:hover {
-  color: black;
-  -moz-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  -webkit-transition: all 0.3s ease;
-  -ms-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-  background: #c49b63;
-  border-bottom: 1px solid transparent;
-}
-
-.ftco-menu .nav-pills .nav-link.active:after,
-.ftco-menu .nav-pills .nav-link:hover:after {
-  opacity: 1;
-}
-
-@media (max-width: 767.98px) {
-  .ftco-menu .nav-pills .nav-link.active:after,
-  .ftco-menu .nav-pills .nav-link:hover:after {
-    opacity: 0;
-  }
-}
-
-@media (max-width: 767.98px) {
-  .ftco-menu .nav-pills .nav-link {
-    display: block;
-    width: 100%;
-    margin-bottom: 5px;
-  }
-}
 
 .block-20 {
   overflow: hidden;

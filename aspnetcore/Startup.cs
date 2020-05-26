@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using aspnetcore.Helpers;
+using aspnetcore.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Repositories;
+using aspnetcore.Repositories;
 
 namespace aspnetcore
 {
@@ -22,6 +23,8 @@ namespace aspnetcore
             Configuration = configuration;
             // Initialize resulthandler helper
             ResultHandler.Initialize();
+            // Initialize file handler helper
+            FileHandler.Initialize();
             // Setup database connection string
             ProcedureHelper.ConnectionString = Configuration["ConnectionStrings:Default"];
         }
@@ -60,11 +63,18 @@ namespace aspnetcore
                         .AllowCredentials();
                 });
             });
+
+            // Dependency Injection
+            services.AddScoped<ICategoriesService, CategoriesService>();
+            services.AddScoped<IProductsService, ProductsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Use wwwroot folder for public files
+            app.UseStaticFiles();
+
             app.UseCors("OnlyOwnClientOrigin");
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();

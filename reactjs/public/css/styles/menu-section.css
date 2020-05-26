@@ -1,0 +1,56 @@
+.ftco-section {
+	padding: 7em 0;
+	position: relative;
+}
+
+.heading-section {
+    z-index: 0;
+}
+
+.heading-section .subheading {
+    font-size: 50px;
+    display: block;
+    margin-bottom: 0;
+    font-family: "Great Vibes", cursive;
+    color: #c49b63;
+    line-height: 1;
+    margin-bottom: -21px;
+    z-index: 1;
+}
+
+.heading-section h2 {
+    z-index: -1;
+    font-size: 40px;
+    font-weight: 700;
+    position: relative;
+    text-transform: uppercase;
+}
+
+.menu-entry {
+	margin-bottom: 30px;
+}
+
+.menu-entry .img {
+	display: block;
+	height: 200px;
+}
+
+.menu-entry .text h3 {
+	font-size: 18px;
+	text-transform: uppercase;
+}
+
+.menu-entry .text h3 a {
+	color: #fff;
+}
+
+.menu-entry .text .price span {
+	color: #fff;
+	font-size: 18px;
+}
+
+.hero-wrap, .img, .blog-img, .user-img {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}

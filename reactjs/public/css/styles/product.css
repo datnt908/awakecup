@@ -1,0 +1,17 @@
+.product div h3 {
+    height: 50px;
+}
+
+.product div .description {
+    height: 82px;
+}
+
+@media (max-width: 768px) {
+    .product div h3 {
+        height: 32px;
+    }
+
+    .product div .description {
+        height: 56px;
+    }
+}

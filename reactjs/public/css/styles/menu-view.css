@@ -1,0 +1,44 @@
+.ftco-menu .nav-pills .nav-link {
+	border-radius: 0;
+	margin-bottom: 0;
+	color: #c49b63;
+	font-size: 18px;
+	font-weight: 400;
+	position: relative;
+	display: inline-block;
+	border-bottom: 1px solid #c49b63;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.ftco-menu .nav-pills .nav-link.active,
+.ftco-menu .nav-pills .nav-link:hover {
+	color: black;
+	-moz-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+	-webkit-transition: all 0.3s ease;
+	-ms-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+	background: #c49b63;
+	border-bottom: 1px solid transparent;
+}
+
+.ftco-menu .nav-pills .nav-link.active:after,
+.ftco-menu .nav-pills .nav-link:hover:after {
+	opacity: 1;
+}
+
+@media (max-width: 992px) {
+	.ftco-menu .nav-pills .nav-link.active:after,
+	.ftco-menu .nav-pills .nav-link:hover:after {
+		opacity: 0;
+	}
+}
+
+@media (max-width: 992px) {
+	.ftco-menu .nav-pills .nav-link {
+		display: block;
+		width: 100%;
+		margin-bottom: 5px;
+	}
+}

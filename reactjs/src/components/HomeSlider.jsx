@@ -4,15 +4,15 @@ import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.min.css';;
 
 const contents = [
-  { background: "images/slider_bg_1.jpg", subTitle: "Welcome", title: "The Best Coffee Testing Experience", content: "A small river named Duden flows by their place and supplies it with the necessary regelialia." },
-  { background: "images/slider_bg_2.jpg", subTitle: "Welcome", title: "The Best Coffee Testing Experience", content: "A small river named Duden flows by their place and supplies it with the necessary regelialia." },
-  { background: "images/slider_bg_3.jpg", subTitle: "Welcome", title: "The Best Coffee Testing Experience", content: "A small river named Duden flows by their place and supplies it with the necessary regelialia." },
+  { background: "/images/slider_bg_1.jpg", subTitle: "Welcome", title: "The Best Coffee Testing Experience", content: "A small river named Duden flows by their place and supplies it with the necessary regelialia." },
+  { background: "/images/slider_bg_2.jpg", subTitle: "Welcome", title: "The Best Coffee Testing Experience", content: "A small river named Duden flows by their place and supplies it with the necessary regelialia." },
+  { background: "/images/slider_bg_3.jpg", subTitle: "Welcome", title: "The Best Coffee Testing Experience", content: "A small river named Duden flows by their place and supplies it with the necessary regelialia." },
 ]
 
 class HomeSlider extends Component {
   render() {
     return (
-      <OwlCarousel className="home-slider" loop autoplay items={1}>
+      <OwlCarousel className="home-slider" loop autoplay items={1} autoplayTimeout={5000} smartSpeed={1000}>
         {contents.map((content, key) => {
           return (
             <div key={key} className="slider-item" style={{ backgroundImage: `url(${content.background})` }}>

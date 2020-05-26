@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class StoreNavBar extends Component {
   state = {
@@ -16,15 +17,21 @@ class StoreNavBar extends Component {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark ftco_navbar ftco-navbar-light" id="ftco-navbar">
         <div className="container">
-          <a className="navbar-brand" href="/">Coffee<small>Awakecup</small></a>
+          <Link className="navbar-brand" to="/store/homepage" >
+            Coffee<small>Awakecup</small>
+          </Link>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
             aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
             <i className="fas fa-bars"></i> Menu
           </button>
           <div className="collapse navbar-collapse" id="ftco-nav">
             <ul className="navbar-nav ml-auto">
-              <li className="nav-item active"><a href="index.html" className="nav-link">Home</a></li>
-              <li className="nav-item"><a href="/" onClick={e => e.preventDefault()} className="nav-link">Menu</a></li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/store/homepage">Home</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/store/menu">Menu</Link>
+              </li>
               <li className="nav-item"><a href="/" onClick={e => e.preventDefault()} className="nav-link">Services</a></li>
               <li className="nav-item"><a href="/" onClick={e => e.preventDefault()} className="nav-link">About</a></li>
               <li className="nav-item"><a href="/" onClick={e => e.preventDefault()} className="nav-link">Shop</a></li>

@@ -4,7 +4,7 @@ using Dapper;
 using MySql.Data.MySqlClient;
 using System.Linq;
 
-namespace Repositories
+namespace aspnetcore.Repositories
 {
     public interface IProcedureHelper
     {
