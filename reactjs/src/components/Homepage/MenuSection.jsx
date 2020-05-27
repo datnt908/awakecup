@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-
 // backend
 import { DOMAIN } from '../../utils/apiCalling';
 import { Link } from 'react-router-dom';
@@ -27,10 +26,11 @@ class MenuSection extends Component {
                 <h2 className="mb-4">Our Menu</h2>
                 <p className="mb-4">{contents.description}</p>
                 <p>
-                  <a href="/" onClick={e => e.preventDefault()}
-                    className="btn btn-primary btn-outline-primary px-4 py-3">
+                  <Link to="/store/menu"
+                    className="btn btn-primary btn-outline-primary px-4 py-3"
+                  >
                     View Full Menu
-                   </a>
+                  </Link>
                 </p>
               </div>
             </div>

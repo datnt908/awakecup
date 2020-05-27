@@ -14,21 +14,21 @@ class IntroSection extends Component {
           <div className="wrap d-md-flex align-items-xl-end">
             <div className="info">
               <div className="row no-gutters">
-                <div className="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
+                <div className="col-md-4 d-flex fadeInUpd">
                   <div className="icon"><i className="fas fa-phone"></i></div>
                   <div className="text">
                     <h3>{contents.phone.title}</h3>
                     <p>{contents.phone.content}</p>
                   </div>
                 </div>
-                <div className="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
+                <div className="col-md-4 d-flex fadeInUpd">
                   <div className="icon"><i className="fas fa-map-marker-alt"></i></div>
                   <div className="text">
                     <h3>{contents.location.title}</h3>
                     <p>{contents.location.content}</p>
                   </div>
                 </div>
-                <div className="col-md-4 d-flex ftco-animate fadeInUp ftco-animated">
+                <div className="col-md-4 d-flex fadeInUpd">
                   <div className="icon"><i className="fas fa-clock"></i></div>
                   <div className="text">
                     <h3>{contents.time.title}</h3>

@@ -19,7 +19,7 @@ class HomeSlider extends Component {
               <div className="overlay"></div>
               <div className="container">
                 <div className="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
-                  <div className="col-md-8 col-sm-12 text-center ftco-animate">
+                  <div className="col-md-8 col-sm-12 text-center">
                     <span className="subheading">{content.subTitle}</span>
                     <h1 className="mb-4">{content.title}</h1>
                     <p className="mb-4 mb-md-5">{content.content}</p>

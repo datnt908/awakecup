@@ -2,23 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-
-// import 'jquery/dist/jquery.min.js';
-// import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import { Provider } from 'react-redux';
 
 import HomepageLayout from './layouts/Homepage';
 
+import store from './redux/store';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Switch>
-        <Route path="/store" render={props => <HomepageLayout {...props} />} />
+    <Provider store={store}>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/store" render={props => <HomepageLayout {...props} />} />
 
-        <Redirect from="/" to="/store" />
-      </Switch>
-    </BrowserRouter>
+          <Redirect from="/" to="/store" />
+        </Switch>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

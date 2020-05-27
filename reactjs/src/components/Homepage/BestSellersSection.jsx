@@ -26,7 +26,7 @@ class BestSellersSection extends Component {
       <section className="ftco-section">
         <div className="container">
           <div className="row justify-content-center mb-5 pb-3">
-            <div className="col-md-7 heading-section ftco-animate text-center">
+            <div className="col-md-7 heading-section text-center">
               <span className="subheading">Discover</span>
               <h2 className="mb-4">Best Coffee Sellers</h2>
               <p>{contents.description}</p>

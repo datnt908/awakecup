@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class StoreNavBar extends Component {
-  state = {
-    cartBadge: 2,
-  }
-
   componentDidMount() {
     window.addEventListener("scroll", () => handleNavBarScroll());
   }
@@ -37,10 +34,12 @@ class StoreNavBar extends Component {
               <li className="nav-item"><a href="/" onClick={e => e.preventDefault()} className="nav-link">Shop</a></li>
               <li className="nav-item"><a href="/" onClick={e => e.preventDefault()} className="nav-link">Contact</a></li>
               <li className="nav-item cart">
-                <a href="/" onClick={e => e.preventDefault()} className="nav-link">
+                <Link to="/store/cart" className="nav-link">
                   <i className="fas fa-shopping-cart"></i>
-                  <span className="bag d-flex justify-content-center align-items-center"><small>{this.state.cartBadge}</small></span>
-                </a>
+                  <span className="bag d-flex justify-content-center align-items-center">
+                    <small>{this.props.cart.cartDetails.length}</small>
+                  </span>
+                </Link>
               </li>
             </ul>
           </div>
@@ -61,4 +60,9 @@ function handleNavBarScroll() {
   }
 }
 
-export default StoreNavBar;
+
+const mapStateToProps = (state) => ({
+  cart: state.cart,
+});
+
+export default connect(mapStateToProps, null)(StoreNavBar);

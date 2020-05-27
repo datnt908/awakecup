@@ -38,17 +38,17 @@ class MenuView extends Component {
       <section className="ftco-menu mb-5 pb-5">
         <div className="container">
           <div className="row justify-content-center my-5">
-            <div className="col-md-7 heading-section text-center ftco-animate">
+            <div className="col-md-7 heading-section text-center">
               <span className="subheading">Discover</span>
               <h2 className="mb-4">Our Products</h2>
               <p>{contents.description}</p>
             </div>
           </div>
           <div className="row d-md-flex">
-            <div className="col-lg-12 ftco-animate p-md-5">
+            <div className="col-lg-12 p-md-5">
               <div className="row">
                 <div className="col-md-12 nav-link-wrap mb-5">
-                  <div className="nav ftco-animate nav-pills justify-content-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                  <div className="nav nav-pills justify-content-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     {this.state.categories.map((value, key) => {
                       const pillId = `v-pills-${value.id}`;
                       return (
@@ -68,7 +68,7 @@ class MenuView extends Component {
                   </div>
                 </div>
                 <div className="col-md-12 d-flex align-items-center">
-                  <div className="tab-content ftco-animate" id="v-pills-tabContent">
+                  <div className="tab-content" id="v-pills-tabContent">
                     {this.state.categories.map((category, key) => {
                       const pillId = `v-pills-${category.id}`;
                       return (

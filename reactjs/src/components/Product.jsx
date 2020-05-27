@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import { DOMAIN } from '../utils/apiCalling';
 import { Link } from 'react-router-dom';
 
+import store from '../redux/store';
+import { addProductToCart } from '../redux/actions/cartActions';
+
 class Product extends Component {
   render() {
     const { product } = this.props;
@@ -23,7 +26,10 @@ class Product extends Component {
           <p className="description">{product.description}</p>
           <p className="price"><span>{product.price} Đ</span></p>
           <p>
-            <a href="/" onClick={e => e.preventDefault()}
+            <a href="/" onClick={e => {
+              e.preventDefault();
+              handleAddProductToCart(product)
+            }}
               className="btn btn-primary btn-outline-primary"
             >
               Add to Cart
@@ -34,6 +40,10 @@ class Product extends Component {
     );
   }
 }
+
+function handleAddProductToCart(product) {
+  store.dispatch(addProductToCart(product));
+};
 
 Product.propTypes = {
   product: PropTypes.shape({
