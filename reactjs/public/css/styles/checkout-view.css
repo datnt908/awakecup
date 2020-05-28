@@ -1,0 +1,86 @@
+.billing-heading {
+	font-size: 24px;
+	text-transform: uppercase;
+}
+
+.billing-form .form-group {
+	position: relative;
+}
+
+.billing-form label {
+	color: #fff;
+}
+
+.billing-form .icon {
+	position: absolute;
+	top: 50% !important;
+	right: 15px;
+	font-size: 14px;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+.billing-form .icon span {
+	color: white !important;
+}
+
+.billing-form .select-wrap,
+.billing-form .input-wrap {
+	position: relative;
+}
+
+.billing-form .select-wrap select,
+.billing-form .input-wrap select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+.billing-form .form-control {
+	font-weight: 300;
+	border: transparent !important;
+	border: 1px solid rgba(255, 255, 255, 0.1) !important;
+	height: 58px !important;
+	padding-left: 15px;
+	padding-right: 15px;
+	background: transparent !important;
+	color: rgba(255, 255, 255, 0.4) !important;
+	font-size: 14px;
+	border-radius: 0px;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+}
+
+.billing-form .form-control::-webkit-input-placeholder {
+	/* Chrome/Opera/Safari */
+	color: rgba(255, 255, 255, 0.4);
+}
+
+.billing-form .form-control::-moz-placeholder {
+	/* Firefox 19+ */
+	color: rgba(255, 255, 255, 0.4);
+}
+
+.billing-form .form-control:-ms-input-placeholder {
+	/* IE 10+ */
+	color: rgba(255, 255, 255, 0.4);
+}
+
+.billing-form .form-control:-moz-placeholder {
+	/* Firefox 18- */
+	color: rgba(255, 255, 255, 0.4);
+}
+
+.billing-form .form-control:focus,
+.billing-form .form-control:active {
+	border-color: #c49b63 !important;
+}
+
+.billing-form textarea.form-control {
+	height: inherit !important;
+}
+
+.form-control option {
+    background-color: #0D0D0D;
+}

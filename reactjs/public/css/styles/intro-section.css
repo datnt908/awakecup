@@ -1,0 +1,68 @@
+@media (min-width: 992px) {
+	.ftco-intro {
+		margin-top: -130px;
+	}
+}
+
+.ftco-intro .container-wrap {
+	z-index: 2 !important;
+	position: relative;
+}
+
+.ftco-intro .wrap {
+	width: 100%;
+}
+
+.ftco-intro .wrap .info {
+	background: #000;
+	padding: 30px;
+}
+
+@media (min-width: 1200px) {
+	.ftco-intro .wrap .info {
+		width: 100%;
+		padding: 2% 5% 2% 12%;
+	}
+}
+
+@media (max-width: 767.98px) {
+	.ftco-intro .wrap .info {
+		width: 100%;
+	}
+}
+
+.ftco-intro .wrap .info p {
+	margin-bottom: 0;
+}
+
+.ftco-intro .wrap .book {
+	width: 35%;
+	background: #c49b63;
+}
+
+@media (max-width: 767.98px) {
+	.ftco-intro .wrap .book {
+		width: 100%;
+	}
+}
+
+.ftco-intro .wrap .book h3 {
+	text-transform: uppercase;
+}
+
+.ftco-intro .wrap h3 {
+	font-size: 16px;
+}
+
+.ftco-intro .wrap .text {
+	width: calc(100% - 40px);
+}
+
+.ftco-intro .wrap .icon {
+	width: 40px;
+}
+
+.ftco-intro .wrap .icon * {
+	color: #c49b63;
+	font-size: 20px;
+}
