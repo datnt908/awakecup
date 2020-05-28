@@ -62,7 +62,7 @@
 }
 
 .cart-list {
-	/* overflow-x: scroll; */
+	overflow-x: auto;
 }
 
 .cart-wrap .btn-primary {

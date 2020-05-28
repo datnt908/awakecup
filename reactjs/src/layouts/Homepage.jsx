@@ -8,6 +8,7 @@ import StoreNavBar from '../components/StoreNavBar';
 import HomeSlider from '../components/HomeSlider';
 import IntroSection from '../components/IntroSection';
 import StoreFooter from '../components/StoreFooter';
+import Loader from '../components/Loader';
 
 class Homepage extends Component {
   render() {
@@ -21,6 +22,8 @@ class Homepage extends Component {
           <Redirect from="*" to="/store/homepage" />
         </Switch>
         <StoreFooter />
+        <div className="alert alert-primary d-none" id="alert"></div>
+        <Loader />
       </>
     );
   }

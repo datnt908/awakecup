@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import store from '../../redux/store';
 import { changeAllCart } from '../../redux/actions/cartActions';
 
 // backend
 import { DOMAIN } from '../../utils/apiCalling';
-import { Link } from 'react-router-dom';
 
 class CartSection extends Component {
   state = { cart: this.props.cart }
@@ -16,7 +16,6 @@ class CartSection extends Component {
     const cart = this.state.cart;
     cartDetail.quantity = quantity;
     cartDetail.total = cartDetail.quantity * cartDetail.product.price;
-    calculateCartTotal(cart);
     this.setState({ cart });
   }
 
@@ -36,6 +35,7 @@ class CartSection extends Component {
 
   render() {
     const { cart } = this.state;
+    calculateCartTotal(cart);
     return (
       <section className="ftco-section ftco-cart">
         <div className="container">
@@ -78,8 +78,8 @@ class CartSection extends Component {
                                   <i className="fas fa-minus"></i>
                                 </button>
                               </span>
-                              <input type="text" className="form-control input-number"
-                                value={value.quantity}
+                              <input type="number" className="form-control input-number"
+                                value={value.quantity} min={1} max={99}
                                 onChange={e => this.handleChangeQuantity(value, e.target.value)}
                               />
                               <span className="input-group-btn">
@@ -111,10 +111,7 @@ class CartSection extends Component {
                 <p className="d-flex total-price"><span>Total</span><span>{cart.total}</span></p>
               </div>
               <p className="text-center">
-                <Link to="/"
-                  className="btn btn-primary py-3 px-4"
-                  onClick={e => e.preventDefault()}
-                >
+                <Link to="/store/checkout" className="btn btn-primary py-3 px-4">
                   Proceed to Checkout
                 </Link>
               </p>
@@ -134,7 +131,6 @@ function calculateCartTotal(cart) {
     cart.subtotal += detail.total;
   }
   cart.total = cart.subtotal + cart.delivery - cart.discount;
-  console.log(cart.total);
 }
 
 function EmptyCart(props) {

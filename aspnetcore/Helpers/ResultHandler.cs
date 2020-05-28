@@ -6,6 +6,7 @@ namespace aspnetcore.Helpers
     {
         SUCCESS = 0x0000,
         SERVER_ERR = 0x0010,
+        CLIENT_ERR = 0x0020,
     }
     public class Result
     {
@@ -24,6 +25,8 @@ namespace aspnetcore.Helpers
                 200, new Result { Code = 0x0000, Message = "Success", Detail = "" }));
             _dictionary.Add(0x0010, new KeyValuePair<int, Result>(
                 500, new Result { Code = 0x0010, Message = "Internal Server Error", Detail = "" }));
+            _dictionary.Add(0x0020, new KeyValuePair<int, Result>(
+                400, new Result { Code = 0x0020, Message = "Bad Request", Detail = "" }));
         }
         public static (int, Result) GetStatusCodeAndResult(ResultCode resultCode)
         {

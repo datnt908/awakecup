@@ -1,6 +1,8 @@
-namespace aspnetcore.Repositories.DTOs {
-    public class ProductSearchDTO {
-        public int TotalRows {get;set;}
+namespace aspnetcore.Repositories.DTOs
+{
+    public class ProductSearchDTO
+    {
+        public int TotalRows { get; set; }
         public int ID { get; set; }
         public string Code { get; set; }
         public string Title { get; set; }

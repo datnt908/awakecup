@@ -10,7 +10,7 @@ const contents = {
   description: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts."
 }
 
-class BestSellersSection extends Component {
+class RelatedSection extends Component {
   state = { products: [] }
 
   componentDidMount() {
@@ -29,7 +29,7 @@ class BestSellersSection extends Component {
           <div className="row justify-content-center mb-5 pb-3">
             <div className="col-md-7 heading-section text-center">
               <span className="subheading">Discover</span>
-              <h2 className="mb-4">Best Coffee Sellers</h2>
+              <h2 className="mb-4">Related Products</h2>
               <p>{contents.description}</p>
             </div>
           </div>
@@ -63,4 +63,4 @@ function getRandomProducts(products) {
   return randProducts;
 }
 
-export default BestSellersSection;
+export default RelatedSection;

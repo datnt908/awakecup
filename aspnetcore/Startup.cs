@@ -67,6 +67,8 @@ namespace aspnetcore
             // Dependency Injection
             services.AddScoped<ICategoriesService, CategoriesService>();
             services.AddScoped<IProductsService, ProductsService>();
+            services.AddScoped<IAdminDivsService, AdminDivsService>();
+            services.AddScoped<IOrdersService, OrderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

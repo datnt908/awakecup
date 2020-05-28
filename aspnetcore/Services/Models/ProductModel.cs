@@ -10,5 +10,10 @@ namespace aspnetcore.Services.Models
         public int Price { get; set; }
         public string ImageURL { get; set; }
         public bool RecordStatus { get; set; }
+
+        public ProductModel()
+        {
+            Category = new CategoryModel();
+        }
     }
 }

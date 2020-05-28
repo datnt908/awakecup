@@ -14,7 +14,9 @@ namespace aspnetcore.Services
         public (ResultCode, QueryModel) Search(object filter)
         {
             QueryModel queryResult = new QueryModel();
-            List<CategorySearchDTO> categoryDTOs = procedureHelper.GetData<CategorySearchDTO>("category_search", filter);
+            List<CategorySearchDTO> categoryDTOs =
+                procedureHelper.GetData<CategorySearchDTO>(
+                    "category_search", filter);
             if (0 != categoryDTOs.Count)
                 queryResult.TotalRows = categoryDTOs[0].TotalRows;
             List<CategoryModel> categories = new List<CategoryModel>();

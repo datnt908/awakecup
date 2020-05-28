@@ -17,7 +17,8 @@ namespace aspnetcore.Services
             List<CategoryModel> categories = GetAllCategories();
             QueryModel queryResult = new QueryModel();
             List<ProductSearchDTO> productDTOs =
-                procedureHelper.GetData<ProductSearchDTO>("product_search", filter);
+                procedureHelper.GetData<ProductSearchDTO>(
+                    "product_search", filter);
             if (0 != productDTOs.Count)
                 queryResult.TotalRows = productDTOs[0].TotalRows;
             List<ProductModel> products = new List<ProductModel>();
@@ -47,7 +48,9 @@ namespace aspnetcore.Services
         private List<CategoryModel> GetAllCategories()
         {
             CategorySearchRequestResource filter = new CategorySearchRequestResource();
-            List<CategorySearchDTO> categoryDTOs = procedureHelper.GetData<CategorySearchDTO>("category_search", filter);
+            List<CategorySearchDTO> categoryDTOs =
+                procedureHelper.GetData<CategorySearchDTO>(
+                    "category_search", filter);
             List<CategoryModel> categories = new List<CategoryModel>();
             foreach (var categoryDTO in categoryDTOs)
             {

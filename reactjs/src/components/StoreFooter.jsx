@@ -26,13 +26,13 @@ class StoreFooter extends Component {
                 <h2 className="ftco-heading-2">About Us</h2>
                 <p>{contents.about}</p>
                 <ul className="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-                  <li className="ftco-animate fadeInUpd">
+                  <li className=" fadeInUpd">
                     <a href="/" onClick={e => e.preventDefault()}><i className="fab fa-facebook-f"></i></a>
                   </li>
-                  <li className="ftco-animate fadeInUpd">
+                  <li className=" fadeInUpd">
                     <a href="/" onClick={e => e.preventDefault()}><i className="fab fa-twitter"></i></a>
                   </li>
-                  <li className="ftco-animate fadeInUpd">
+                  <li className=" fadeInUpd">
                     <a href="/" onClick={e => e.preventDefault()}><i className="fab fa-instagram"></i></a>
                   </li>
                 </ul>
