@@ -1,13 +1,16 @@
+using System.Collections.Generic;
 using System.Linq;
 using aspnetcore.Controllers.Resources;
 using aspnetcore.Helpers;
 using aspnetcore.Repositories.DTOs;
+using aspnetcore.Services.Models;
 
 namespace aspnetcore.Services
 {
     public interface IOrdersService
     {
         (ResultCode, GeneralDTO) Create(OrderCreateResource resource);
+        (ResultCode, QueryModel) Search(object filter);
     }
     public class OrderService : BaseService, IOrdersService
     {
@@ -83,6 +86,53 @@ namespace aspnetcore.Services
                 return (ResultCode.CLIENT_ERR, result);
 
             return (ResultCode.SUCCESS, result);
+        }
+
+        public (ResultCode, QueryModel) Search(object filter)
+        {
+            List<OrderStatusModel> orderStatuses = GetAllOrderStatuses();
+            QueryModel queryResult = new QueryModel();
+            List<OrderSearchDTO> orderDTOs =
+                procedureHelper.GetData<OrderSearchDTO>(
+                    "order_search", filter);
+            if (0 != orderDTOs.Count)
+                queryResult.TotalRows = orderDTOs[0].TotalRows;
+            List<OrderModel> orders = new List<OrderModel>();
+            foreach (var orderDTO in orderDTOs)
+            {
+                OrderModel order = new OrderModel();
+                order.ID = orderDTO.ID;
+                order.Firstname = orderDTO.Firstname;
+                order.Lastname = orderDTO.Lastname;
+                foreach (var status in orderStatuses)
+                    if (status.ID == orderDTO.StatusID)
+                    {
+                        order.Status = status;
+                        break;
+                    }
+                order.Phone = orderDTO.Phone;
+                order.Cart.ID = orderDTO.CartID;
+                orders.Add(order);
+            }
+            queryResult.Items = orders;
+            return (ResultCode.SUCCESS, queryResult);
+        }
+
+        private List<OrderStatusModel> GetAllOrderStatuses()
+        {
+            OrderStatusSearchRequestResource filter = new OrderStatusSearchRequestResource();
+            List<OrderStatusDTO> orderStatusDTOs =
+                procedureHelper.GetData<OrderStatusDTO>(
+                    "order_status_search", filter);
+            List<OrderStatusModel> orderStatuses = new List<OrderStatusModel>();
+            foreach (var orderStatusDTO in orderStatusDTOs)
+            {
+                OrderStatusModel orderStatus = new OrderStatusModel();
+                orderStatus.ID = orderStatusDTO.ID;
+                orderStatus.Status = orderStatusDTO.Status;
+                orderStatuses.Add(orderStatus);
+            }
+            return orderStatuses;
         }
     }
 }
