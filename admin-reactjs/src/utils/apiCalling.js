@@ -124,3 +124,74 @@ export class CategoryAPIsService {
         }
     }
 }
+
+export class OrderStatusAPIsService {
+    static async search(id, status, search, sorting, pageNo, pageSize) {
+        const filter = {
+            ID: id ? id : '',
+            Status: status ? status : '',
+            Search: search ? search : '',
+            Sorting: sorting ? sorting : '',
+            PageNo: pageNo ? pageNo : 1,
+            PageSize: pageSize ? pageSize : 25,
+        };
+
+        const requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        const queryString = serializeQueryString(filter);
+        const apiEndpoint = `${DOMAIN}/OrderStatuses/Search`;
+
+        try {
+            const response = await fetch(`${apiEndpoint}?${queryString}`, requestOptions)
+            switch (response.status) {
+                case 200:
+                    return response;
+
+                default:
+                    throw response;
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+}
+
+export class OrderAPIsService {
+    static async search(id, firstname, lastname, statusID, phone, search, sorting, pageNo, pageSize) {
+        const filter = {
+            ID: id ? id : '',
+            Firstname: firstname ? firstname : '',
+            Lastname: lastname ? lastname : '',
+            StatusID: statusID ? statusID : '',
+            Phone: phone ? phone : '',
+            Search: search ? search : '',
+            Sorting: sorting ? sorting : '',
+            PageNo: pageNo ? pageNo : 1,
+            PageSize: pageSize ? pageSize : 25,
+        };
+
+        const requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        const queryString = serializeQueryString(filter);
+        const apiEndpoint = `${DOMAIN}/Orders/Search`;
+
+        try {
+            const response = await fetch(`${apiEndpoint}?${queryString}`, requestOptions)
+            switch (response.status) {
+                case 200:
+                    return response;
+
+                default:
+                    throw response;
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+}

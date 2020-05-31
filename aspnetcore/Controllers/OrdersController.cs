@@ -40,5 +40,26 @@ namespace aspnetcore.Controllers
             };
             return StatusCode(statusCode, response);
         }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(List<OrderModel>), 200)]
+        [ProducesResponseType(typeof(GeneralResponse), 500)]
+        public IActionResult Search([FromQuery] OrderSearchRequestResource filter)
+        {
+            ResultCode resultCode;
+            QueryModel queryResult;
+            (resultCode, queryResult) = _service.Search(filter);
+
+            Result error;
+            int statusCode;
+            (statusCode, error) = ResultHandler.GetStatusCodeAndResult(resultCode);
+
+            GeneralResponse response = new GeneralResponse
+            {
+                Result = queryResult,
+                Error = error,
+            };
+            return StatusCode(statusCode, response);
+        }
     }
 }
