@@ -19,15 +19,13 @@ namespace aspnetcore.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(List<CategoryModel>), 200)]
-        [ProducesResponseType(typeof(GeneralResponse), 500)]
-        public IActionResult Search([FromQuery] CategorySearchRequestResource filter)
+        [ProducesResponseType(500)]
+        public IActionResult Query([FromQuery] CategoryQueryRequest filter)
         {
-            ResultCode resultCode;
-            QueryModel queryResult;
-            (resultCode, queryResult) = _service.Search(filter);
+            ResultCode resultCode; QueryModel queryResult;
+            (resultCode, queryResult) = _service.Query(filter);
 
-            Result error;
-            int statusCode;
+            Result error; int statusCode;
             (statusCode, error) = ResultHandler.GetStatusCodeAndResult(resultCode);
 
             GeneralResponse response = new GeneralResponse

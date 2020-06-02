@@ -1,37 +1,39 @@
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using aspnetcore.Controllers.Resources;
+using aspnetcore.Helpers;
 using aspnetcore.Repositories.DTOs;
 using aspnetcore.Services.Models;
-using System.Linq;
-using aspnetcore.Helpers;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.Security.Claims;
-using System;
 
 namespace aspnetcore.Services
 {
     public interface IAccountsService
     {
-        (ResultCode, AccountModel) SignIn(string username, string sha1Pass);
+        (ResultCode, QueryModel) Query(AccountQueryRequest filter);
+        (ResultCode, AccountModel) Authenticate(AccountAuthenticateRequest requestBody);
     }
-
     public class AccountsService : BaseService, IAccountsService
     {
-        public static string Secret { get; set; }
-        public (ResultCode, AccountModel) SignIn(string username, string sha1Pass)
+        public static string AuthKey { get; set; }
+        public (ResultCode, AccountModel) Authenticate(AccountAuthenticateRequest body)
         {
-            AccountModel account = new AccountModel();
-            var accountDTO = procedureHelper.GetData<AccountDTO>(
-                "account_signin", new { Username = username, })
+            AccountQueryDTO accountDTO = _procedureHelper.GetData<AccountQueryDTO>(
+                "account_table_get_account", new { Username = body.Username })
                 .FirstOrDefault();
             if (null == accountDTO)
-                return (ResultCode.NOT_FOUND, null);
-            if (BitConverter.ToString(accountDTO.Password).Replace("-", "").ToLower() != sha1Pass.ToLower())
-                return (ResultCode.UN_AUTH, null);
+                return (ResultCode.ACCOUNT_NOT_FOUND, null);
+            AccountModel account = new AccountModel(accountDTO);
+            if (account.Password.ToLower() != body.Sha1Pass.ToLower())
+                return (ResultCode.ACCOUNT_PASS_INVALID, null);
 
             // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(Secret);
+            var key = Encoding.ASCII.GetBytes(AuthKey);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -45,6 +47,23 @@ namespace aspnetcore.Services
             account.Token = tokenHandler.WriteToken(token);
 
             return (ResultCode.SUCCESS, account);
+        }
+
+        public (ResultCode, QueryModel) Query(AccountQueryRequest filter)
+        {
+            QueryModel queryResult = new QueryModel();
+            List<AccountQueryDTO> accountDTOs = _procedureHelper.GetData<AccountQueryDTO>(
+                "account_table_query", filter);
+            if (0 != accountDTOs.Count)
+                queryResult.TotalRows = accountDTOs[0].TotalRows;
+            List<AccountModel> accounts = new List<AccountModel>();
+            foreach (var item in accountDTOs)
+            {
+                AccountModel account = new AccountModel(item);
+                accounts.Add(account);
+            }
+            queryResult.Items = accounts;
+            return (ResultCode.SUCCESS, queryResult);
         }
     }
 }
