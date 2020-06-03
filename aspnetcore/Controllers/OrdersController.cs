@@ -18,24 +18,41 @@ namespace aspnetcore.Controllers
             _service = service;
         }
 
-        [HttpPost]
-        [ProducesResponseType(typeof(GeneralResponse), 200)]
-        [ProducesResponseType(typeof(GeneralResponse), 400)]
-        [ProducesResponseType(typeof(GeneralResponse), 500)]
-        public IActionResult Create([FromBody] OrderCreateResource resource)
+        [HttpGet]
+        [ProducesResponseType(typeof(List<OrderQueryDTO>), 200)]
+        [ProducesResponseType(500)]
+        public IActionResult Query([FromQuery] OrderQueryRequest filter)
         {
-            ResultCode resultCode;
-            GeneralDTO createResult;
-            (resultCode, createResult) = _service.Create(resource);
+            ResultCode resultCode; QueryModel queryResult;
+            (resultCode, queryResult) = _service.Query(filter);
 
-            Result error;
-            int statusCode;
+            Result error; int statusCode;
             (statusCode, error) = ResultHandler.GetStatusCodeAndResult(resultCode);
-            error.Detail = createResult.ErrorDesc;
 
             GeneralResponse response = new GeneralResponse
             {
-                Result = createResult.Result,
+                Result = queryResult,
+                Error = error,
+            };
+            return StatusCode(statusCode, response);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public IActionResult Create([FromBody] OrderCreateRequest body)
+        {
+            ResultCode resultCode; string orderID;
+            (resultCode, orderID) = _service.Create(body);
+
+            Result error; int statusCode;
+            (statusCode, error) = ResultHandler.GetStatusCodeAndResult(resultCode);
+
+            GeneralResponse response = new GeneralResponse
+            {
+                Result = orderID,
                 Error = error,
             };
             return StatusCode(statusCode, response);
@@ -43,15 +60,13 @@ namespace aspnetcore.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(List<OrderModel>), 200)]
-        [ProducesResponseType(typeof(GeneralResponse), 500)]
-        public IActionResult Search([FromQuery] OrderSearchRequestResource filter)
+        [ProducesResponseType(500)]
+        public IActionResult Search([FromQuery] OrderSearchRequest filter)
         {
-            ResultCode resultCode;
-            QueryModel queryResult;
+            ResultCode resultCode; QueryModel queryResult;
             (resultCode, queryResult) = _service.Search(filter);
 
-            Result error;
-            int statusCode;
+            Result error; int statusCode;
             (statusCode, error) = ResultHandler.GetStatusCodeAndResult(resultCode);
 
             GeneralResponse response = new GeneralResponse

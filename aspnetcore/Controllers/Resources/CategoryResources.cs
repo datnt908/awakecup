@@ -1,14 +1,12 @@
 namespace aspnetcore.Controllers.Resources
 {
-    public class CategorySearchRequestResource : BaseFilterResource
+    public class CategoryQueryRequest : BaseQueryRequest
     {
         public int? ID { get; set; }
         public string Title { get; set; }
-
-        public CategorySearchRequestResource()
+        public CategoryQueryRequest()
         {
             ID = null;
-            Title = string.Empty;
         }
     }
 }

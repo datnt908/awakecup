@@ -1,10 +1,10 @@
-using aspnetcore.Services;
 using Microsoft.AspNetCore.Mvc;
 using aspnetcore.Controllers.Resources;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using aspnetcore.Services.Models;
 using aspnetcore.Helpers;
+using System.Collections.Generic;
+using aspnetcore.Services.Models;
+using aspnetcore.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace aspnetcore.Controllers
 {
@@ -12,42 +12,53 @@ namespace aspnetcore.Controllers
     [Route("[controller]/[action]")]
     public class AccountsController : ControllerBase
     {
-        private readonly IAccountsService _service;
+        private IAccountsService _service = null;
         public AccountsController(IAccountsService service)
         {
             _service = service;
         }
 
+        [HttpGet]
+        [ProducesResponseType(typeof(List<AccountModel>), 200)]
+        [ProducesResponseType(500)]
+        public IActionResult Query([FromQuery] AccountQueryRequest filter)
+        {
+            ResultCode resultCode; QueryModel queryResult;
+            (resultCode, queryResult) = _service.Query(filter);
+
+            Result error; int statusCode;
+            (statusCode, error) = ResultHandler.GetStatusCodeAndResult(resultCode);
+
+            GeneralResponse response = new GeneralResponse
+            {
+                Result = queryResult,
+                Error = error,
+            };
+            return StatusCode(statusCode, response);
+        }
+
         [HttpPost]
         [ProducesResponseType(typeof(AccountModel), 200)]
         [ProducesResponseType(400)]
-        [ProducesResponseType(typeof(GeneralResponse), 401)]
-        [ProducesResponseType(typeof(GeneralResponse), 404)]
-        [ProducesResponseType(typeof(GeneralResponse), 500)]
-        public IActionResult SignIn(
-            [FromBody] AccountSignInRequestResource userAccount)
+        [ProducesResponseType(401)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public IActionResult Authenticate([FromBody] AccountAuthenticateRequest body)
         {
-            ResultCode resultCode;
-            AccountModel account = null;
-            (resultCode, account) = _service.SignIn(
-                userAccount.Username, userAccount.Sha1Pass);
+            ResultCode resultCode; AccountModel account;
+            (resultCode, account) = _service.Authenticate(body);
 
-            Result resultValue; int statusCode;
-            (statusCode, resultValue) = ResultHandler.GetStatusCodeAndResult(resultCode);
-            GeneralResponse response = new GeneralResponse()
+            Result error; int statusCode;
+            (statusCode, error) = ResultHandler.GetStatusCodeAndResult(resultCode);
+
+            GeneralResponse response = new GeneralResponse
             {
-                Error = resultValue,
+                Result = account,
+                Error = error,
             };
-
-            if (ResultCode.NOT_FOUND == resultCode)
-                response.Error.Detail = "Invalid Username";
-
-            if (ResultCode.UN_AUTH == resultCode)
-                response.Error.Detail = "Invalid Password";
-
-            response.Result = account;
             return StatusCode(statusCode, response);
         }
+
         [HttpGet]
         [Authorize]
         [ProducesResponseType(200)]

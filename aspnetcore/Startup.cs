@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using aspnetcore.Helpers;
-using aspnetcore.Services;
+using aspnetcore.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +11,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using aspnetcore.Repositories;
-using Microsoft.IdentityModel.Tokens;
+using aspnetcore.Services;
+using aspnetcore.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace aspnetcore
 {
@@ -24,14 +24,12 @@ namespace aspnetcore
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            // Setup database connection string
+            ProcedureHelper.ConnectionString = Configuration["App:ConnectionString"];
             // Initialize resulthandler helper
             ResultHandler.Initialize();
-            // Initialize file handler helper
-            FileHandler.Initialize();
-            // Setup database connection string
-            ProcedureHelper.ConnectionString = Configuration["ConnectionStrings:Default"];
             // Get secret key for user service
-            AccountsService.Secret = Configuration["AuthSetting:Secret"];
+            AccountsService.AuthKey = Configuration["App:AuthKey"];
         }
 
         public IConfiguration Configuration { get; }
@@ -93,7 +91,7 @@ namespace aspnetcore
                 });
             });
             // JWT authentication
-            var key = Encoding.ASCII.GetBytes(Configuration["AuthSetting:Secret"]);
+            var key = Encoding.ASCII.GetBytes(Configuration["App:AuthKey"]);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -112,20 +110,22 @@ namespace aspnetcore
                 };
             });
             // Dependency Injection
-            services.AddScoped<ICategoriesService, CategoriesService>();
-            services.AddScoped<IProductsService, ProductsService>();
-            services.AddScoped<IAdminDivsService, AdminDivsService>();
-            services.AddScoped<IOrdersService, OrderService>();
-            services.AddScoped<IOrderStatusesService, OrderStatusesService>();
             services.AddScoped<IAccountsService, AccountsService>();
+            services.AddScoped<IAdminDivsService, AdminDivsService>();
+            services.AddScoped<ICategoriesService, CategoriesService>();
+            services.AddScoped<IOrderStatusesService, OrderStatusesService>();
+            services.AddScoped<IProductsService, ProductsService>();
+            services.AddScoped<IOrdersService, OrdersService>();
+            services.AddScoped<ICartsService, CartsService>();
+            services.AddScoped<ICartDetailsService, CartDetailsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // Use wwwroot folder for public files
+            // Use wwwroot folder public on web
             app.UseStaticFiles();
-
+            // Use Cors with origin in appsetting.json
             app.UseCors("OnlyOwnClientOrigin");
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
@@ -136,7 +136,6 @@ namespace aspnetcore
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Web store ASP.NET Web APIs");
                 options.RoutePrefix = string.Empty;
             });
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

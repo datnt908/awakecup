@@ -4,10 +4,10 @@ namespace aspnetcore.Services
 {
     public class BaseService
     {
-        protected ProcedureHelper procedureHelper = null;
+        protected ProcedureHelper _procedureHelper;
         public BaseService()
         {
-            procedureHelper = new ProcedureHelper();
+            _procedureHelper = new ProcedureHelper();
         }
     }
 }

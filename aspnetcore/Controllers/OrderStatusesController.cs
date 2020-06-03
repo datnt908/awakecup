@@ -19,15 +19,13 @@ namespace aspnetcore.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(List<OrderStatusModel>), 200)]
-        [ProducesResponseType(typeof(GeneralResponse), 500)]
-        public IActionResult Search([FromQuery] OrderStatusSearchRequestResource filter)
+        [ProducesResponseType(500)]
+        public IActionResult Query([FromQuery] OrderStatusQueryRequest filter)
         {
-            ResultCode resultCode;
-            QueryModel queryResult;
-            (resultCode, queryResult) = _service.Search(filter);
+            ResultCode resultCode; QueryModel queryResult;
+            (resultCode, queryResult) = _service.Query(filter);
 
-            Result error;
-            int statusCode;
+            Result error; int statusCode;
             (statusCode, error) = ResultHandler.GetStatusCodeAndResult(resultCode);
 
             GeneralResponse response = new GeneralResponse
