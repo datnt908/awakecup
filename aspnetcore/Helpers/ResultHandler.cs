@@ -12,13 +12,18 @@ namespace aspnetcore.Helpers
         COMMUNE_NOT_FOUND = 0x0005,
         ORDER_NOT_FOUND = 0x0006,
         PRODUCT_NOT_FOUND = 0x0007,
-        ORDER_DUP_PRODUCT = 0x0008,
+        PRODUCT_DUPLICATED = 0x0008,
         EMPTY_ORDER_CART = 0x0009,
         EMPTY_ORDER_NAME = 0x000A,
         EMPTY_ORDER_PHONE = 0x000B,
         EMPTY_ORDER_ADDR = 0x000C,
         ACCOUNT_NOT_FOUND = 0x000D,
         ACCOUNT_PASS_INVALID = 0x000E,
+        PRODUCT_INFO_INVALID = 0x000F,
+        CATEGORY_NOT_FOUND = 0x0010,
+        EMPTY_PRODUCT_CODE = 0x0011,
+        EMPTY_PRODUCT_TITLE = 0x0012,
+        EMPTY_PRODUCT_IMAGE = 0x0013,
     }
     public class Result
     {
@@ -49,8 +54,8 @@ namespace aspnetcore.Helpers
                 500, new Result { Code = ResultCode.ORDER_NOT_FOUND, Message = "Bad Request", Detail = "Not found order for insert cart detail" }));
             _dictionary.Add(ResultCode.PRODUCT_NOT_FOUND, new KeyValuePair<int, Result>(
                 404, new Result { Code = ResultCode.PRODUCT_NOT_FOUND, Message = "Not Found", Detail = "Not found product for insert cart detail" }));
-            _dictionary.Add(ResultCode.ORDER_DUP_PRODUCT, new KeyValuePair<int, Result>(
-                400, new Result { Code = ResultCode.ORDER_DUP_PRODUCT, Message = "Bad Request", Detail = "Duplicated product for insert cart detail" }));
+            _dictionary.Add(ResultCode.PRODUCT_DUPLICATED, new KeyValuePair<int, Result>(
+                400, new Result { Code = ResultCode.PRODUCT_DUPLICATED, Message = "Bad Request", Detail = "Duplicated product for insert" }));
             _dictionary.Add(ResultCode.EMPTY_ORDER_CART, new KeyValuePair<int, Result>(
                 400, new Result { Code = ResultCode.EMPTY_ORDER_CART, Message = "Bad Request", Detail = "Cart and Cart detail is empty" }));
             _dictionary.Add(ResultCode.EMPTY_ORDER_NAME, new KeyValuePair<int, Result>(
@@ -62,7 +67,18 @@ namespace aspnetcore.Helpers
             _dictionary.Add(ResultCode.ACCOUNT_NOT_FOUND, new KeyValuePair<int, Result>(
                 404, new Result { Code = ResultCode.ACCOUNT_NOT_FOUND, Message = "Not Found", Detail = "Account is not existed" }));
             _dictionary.Add(ResultCode.ACCOUNT_PASS_INVALID, new KeyValuePair<int, Result>(
-                401, new Result { Code = ResultCode.ACCOUNT_PASS_INVALID, Message = "Not Found", Detail = "Account's password is invalid" }));
+                401, new Result { Code = ResultCode.ACCOUNT_PASS_INVALID, Message = "Unauthorized", Detail = "Account's password is invalid" }));
+            _dictionary.Add(ResultCode.PRODUCT_INFO_INVALID, new KeyValuePair<int, Result>(
+                400, new Result { Code = ResultCode.PRODUCT_INFO_INVALID, Message = "Bad Request", Detail = "Invalid Product information" }));
+            _dictionary.Add(ResultCode.CATEGORY_NOT_FOUND, new KeyValuePair<int, Result>(
+                404, new Result { Code = ResultCode.CATEGORY_NOT_FOUND, Message = "Not Found", Detail = "Not found category" }));
+            _dictionary.Add(ResultCode.EMPTY_PRODUCT_CODE, new KeyValuePair<int, Result>(
+                400, new Result { Code = ResultCode.EMPTY_PRODUCT_CODE, Message = "Bad Request", Detail = "Product code is empty" }));
+            _dictionary.Add(ResultCode.EMPTY_PRODUCT_TITLE, new KeyValuePair<int, Result>(
+                400, new Result { Code = ResultCode.EMPTY_PRODUCT_TITLE, Message = "Bad Request", Detail = "Product title is empty" }));
+            _dictionary.Add(ResultCode.EMPTY_PRODUCT_IMAGE, new KeyValuePair<int, Result>(
+                400, new Result { Code = ResultCode.EMPTY_PRODUCT_IMAGE, Message = "Bad Request", Detail = "Product image is empty" }));
+
         }
         public static (int, Result) GetStatusCodeAndResult(ResultCode resultCode)
         {

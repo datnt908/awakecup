@@ -7,7 +7,7 @@ export default (theme) => ({
         marginBottom: theme.spacing(2),
     },
     table: {
-        minWidth: 750,
+        minWidth: 800,
     },
     visuallyHidden: {
         border: 0,

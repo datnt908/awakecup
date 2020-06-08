@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 // material-ui
 import { withStyles } from '@material-ui/core/styles';
 import styles from '../theme/styles/ProductsView';
@@ -88,7 +89,13 @@ class ProductsView extends Component {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        Products
+        <div className={classes.row}>
+          <Typography variant="h4">Products</Typography>
+          <span className={classes.spacer} />
+          <Link to="/admin/products/create" style={{ textDecoration: 'none' }}>
+            <Button color="primary" variant="contained">Add Product</Button>
+          </Link>
+        </div>
         <div className={classes.content}>
           <Card>
             <CardHeader title="Products filter" />
@@ -120,7 +127,7 @@ class ProductsView extends Component {
                     <TextField id="product-title" fullWidth variant="outlined" label="Product Title" size='small' />
                   </Grid>
                   <Grid item xs={12} sm={6} md={3}>
-                    <TextField id="product-category" fullWidth variant="outlined" label="Product Category" size='small'
+                    <TextField id="product-cate" fullWidth variant="outlined" label="Product Category" size='small'
                       select value={this.state.selectedCate}
                       onChange={e => this.setState({ selectedCate: parseInt(e.target.value, 10) })}
                       SelectProps={{ native: true }}

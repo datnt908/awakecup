@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using aspnetcore.Services.Models;
 using aspnetcore.Services;
 using aspnetcore.Repositories.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace aspnetcore.Controllers
 {
@@ -51,6 +52,29 @@ namespace aspnetcore.Controllers
             GeneralResponse response = new GeneralResponse
             {
                 Result = queryResult,
+                Error = error,
+            };
+            return StatusCode(statusCode, response);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public IActionResult Create([FromForm] ProductCreateRequest form)
+        {
+            ResultCode resultCode; int? productID;
+            (resultCode, productID) = _service.Create(form);
+
+            Result error; int statusCode;
+            (statusCode, error) = ResultHandler.GetStatusCodeAndResult(resultCode);
+
+            GeneralResponse response = new GeneralResponse
+            {
+                Result = productID,
                 Error = error,
             };
             return StatusCode(statusCode, response);

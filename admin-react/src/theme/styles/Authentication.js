@@ -21,7 +21,7 @@ export default (theme) => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundImage: 'url(./images/auth_bg.jpg)',
+        backgroundImage: 'url(../images/auth_bg.jpg)',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center'

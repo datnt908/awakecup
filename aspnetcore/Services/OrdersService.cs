@@ -21,11 +21,11 @@ namespace aspnetcore.Services
         {
             if (0 == body.Cart.CartDetails.Count)
                 return (ResultCode.EMPTY_ORDER_CART, null);
-            if ("" == body.Firstname || "" == body.Lastname)
+            if (string.IsNullOrEmpty(body.Firstname) || string.IsNullOrEmpty(body.Lastname))
                 return (ResultCode.EMPTY_ORDER_NAME, null);
-            if ("" == body.Phone)
+            if (string.IsNullOrEmpty(body.Phone))
                 return (ResultCode.EMPTY_ORDER_PHONE, null);
-            if ("" == body.Address)
+            if (string.IsNullOrEmpty(body.Address))
                 return (ResultCode.EMPTY_ORDER_ADDR, null);
             if (
                 body.Firstname.Length > 32 ||
