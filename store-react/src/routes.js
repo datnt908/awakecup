@@ -2,7 +2,8 @@ import Homepage from './views/HomepageView';
 import Menu from './views/MenuView';
 import Cart from './views/CartView';
 import Checkout from './views/CheckoutView';
-import OrderNowView from './views/OrderNowView';
+import OrderNow from './views/OrderNowView';
+import Product from './views/ProductView'
 
 const routes = [
     {
@@ -18,7 +19,7 @@ const routes = [
     {
         path: '/shop',
         layout: '',
-        component: OrderNowView,
+        component: OrderNow,
     },
     {
         path: '/cart',
@@ -29,6 +30,11 @@ const routes = [
         path: '/checkout',
         layout: '',
         component: Checkout
+    },
+    {
+        path: '/product-:productCode',
+        layout: '',
+        component: Product
     },
 ];
 

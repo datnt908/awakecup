@@ -9,7 +9,7 @@ class CartView extends Component {
     return (
       <>
         <CartSection />
-        <RelatedSection />
+        <RelatedSection productCode='' />
       </>
     );
   }

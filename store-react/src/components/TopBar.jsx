@@ -14,7 +14,7 @@ class TopBar extends Component {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark ftco_navbar ftco-navbar-light" id="ftco-navbar">
         <div className="container">
-          <Link className="navbar-brand" to="/homepage" >
+          <Link className="navbar-brand" to="/homepage" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             Coffee<small>Awakecup</small>
           </Link>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
@@ -23,14 +23,20 @@ class TopBar extends Component {
           </button>
           <div className="collapse navbar-collapse" id="ftco-nav">
             <ul className="navbar-nav ml-auto">
-              <li className="nav-item"><Link className="nav-link" to="/homepage">Home</Link></li>
-              <li className="nav-item"><Link className="nav-link" to="/menu">Menu</Link></li>
-              <li className="nav-item"><Link className="nav-link" to="/shop">Shop</Link></li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/homepage" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Home</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/menu" onClick={() => window.scrollTo({ top: window.innerHeight - 60, behavior: 'smooth' })}>Menu</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/shop" onClick={() => window.scrollTo({ top: window.innerHeight - 60, behavior: 'smooth' })}>Shop</Link>
+              </li>
               {/* <li className="nav-item"><a href="/" onClick={e => e.preventDefault()} className="nav-link">Services</a></li>
               <li className="nav-item"><a href="/" onClick={e => e.preventDefault()} className="nav-link">About</a></li>
               <li className="nav-item"><a href="/" onClick={e => e.preventDefault()} className="nav-link">Contact</a></li> */}
               <li className="nav-item cart">
-                <Link to="/cart" className="nav-link">
+                <Link to="/cart" className="nav-link" onClick={() => window.scrollTo({ top: window.innerHeight - 60, behavior: 'smooth' })}>
                   <i className="fas fa-shopping-cart"></i>
                   <span className="bag d-flex justify-content-center align-items-center">
                     <small>{this.props.cart.cartDetails.length}</small>

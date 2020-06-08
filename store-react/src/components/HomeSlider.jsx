@@ -15,18 +15,26 @@ class HomeSlider extends Component {
       <OwlCarousel className="home-slider" loop autoplay items={1} autoplayTimeout={5000} smartSpeed={1000}>
         {contents.map((content, key) => {
           return (
-            <div key={key} className="slider-item" style={{ backgroundImage: `url(${content.background})` }}>
+            <div key={key} className="slider-item" style={{ backgroundImage: `url(${content.background})`, }}>
               <div className="overlay"></div>
               <div className="container">
                 <div className="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
-                  <div className="col-md-8 col-sm-12 text-center">
+                  <div className="col-md-8 col-sm-12 text-center" >
                     <span className="subheading">{content.subTitle}</span>
                     <h1 className="mb-4">{content.title}</h1>
                     <p className="mb-4 mb-md-5">{content.content}</p>
                     <p>
-                      <Link to="/cart" className="btn btn-primary p-3 px-xl-4 py-xl-3">Order Now</Link>
+                      <Link to="/cart" className="btn btn-primary p-3 px-xl-4 py-xl-3"
+                        onClick={() => window.scrollTo({ top: window.innerHeight - 60, behavior: 'smooth' })}
+                      >
+                        Order Now
+                      </Link>
                       {" "}
-                      <Link to="/menu" className="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3">View Menu</Link>
+                      <Link to="/menu" className="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3"
+                        onClick={() => window.scrollTo({ top: window.innerHeight - 60, behavior: 'smooth' })}
+                      >
+                        View Menu
+                      </Link>
                     </p>
                   </div>
                 </div>
