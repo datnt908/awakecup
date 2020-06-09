@@ -60,13 +60,12 @@ class CreateProductView extends Component {
       .then(result => {
         switch (result.statusCode) {
           case 400:
-          case 401:
           case 404:
           case 500:
             notify(result.json.error.message, result.json.error.detail, "error");
             break;
           case 200:
-            notify(result.json.error.message, 'Create new Product succesfull', "success");
+            notify(result.json.error.message, 'Create new Product successfull', "success");
             break;
           default:
             break;

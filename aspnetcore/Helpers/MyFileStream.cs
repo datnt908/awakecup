@@ -32,7 +32,7 @@ namespace aspnetcore.Helpers
             }
         }
 
-        public void SaveProductImage()
+        public void CreateProductImage()
         {
             string prefixPath = prefixPaths["ProductImages"];
             string filePath = Path.Combine(
@@ -41,6 +41,19 @@ namespace aspnetcore.Helpers
                 Directory.CreateDirectory(Path.GetDirectoryName(filePath));
             if (null != FileContent && 0 != FileContent.Length)
                 File.WriteAllBytes(filePath, FileContent);
+        }
+
+        public void DeleteProductImage()
+        {
+            string prefixPath = prefixPaths["ProductImages"];
+            string filePath = Path.Combine(
+                Directory.GetCurrentDirectory(), prefixPath, FileName);
+            string newFilePath = Path.Combine(
+                Directory.GetCurrentDirectory(), prefixPath, FileName.Replace("_1.", "_0."));
+            if (File.Exists(newFilePath))
+                File.Delete(newFilePath);
+            if (File.Exists(filePath))
+                File.Move(filePath, newFilePath);
         }
     }
 }

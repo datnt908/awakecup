@@ -19,6 +19,7 @@ namespace aspnetcore.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(typeof(List<AccountModel>), 200)]
         [ProducesResponseType(500)]
         public IActionResult Query([FromQuery] AccountQueryRequest filter)

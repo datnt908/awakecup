@@ -7,6 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 class EnhancedTableHead extends Component {
   state = { orderBy: '', order: 'asc' }
@@ -25,6 +26,15 @@ class EnhancedTableHead extends Component {
     return (
       <TableHead>
         <TableRow>
+          <TableCell padding="checkbox">
+            <Checkbox
+              indeterminate={this.props.selectedNo > 0 && this.props.selectedNo < this.props.rowCount}
+              checked={this.props.rowCount > 0 && this.props.selectedNo === this.props.rowCount}
+              onChange={this.props.onSelectAllClick}
+              inputProps={{ 'aria-label': 'select all desserts' }}
+              color="default"
+            />
+          </TableCell>
           {this.props.headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
@@ -54,6 +64,9 @@ class EnhancedTableHead extends Component {
 EnhancedTableHead.propTypes = {
   headCells: PropTypes.array.isRequired,
   onRequestSort: PropTypes.func.isRequired,
+  rowCount: PropTypes.number.isRequired,
+  selectedNo: PropTypes.number.isRequired,
+  onSelectAllClick: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(EnhancedTableHead);

@@ -14,6 +14,7 @@ namespace aspnetcore.Services
         (ResultCode, QueryModel) Query(ProductQueryRequest filter);
         (ResultCode, QueryModel) Search(ProductSearchRequest filter);
         (ResultCode, int?) Create(ProductCreateRequest form);
+        (ResultCode, int?) Delete(int id);
     }
     public class ProductsService : BaseService, IProductsService
     {
@@ -34,7 +35,7 @@ namespace aspnetcore.Services
             )
                 return (ResultCode.PRODUCT_INFO_INVALID, null);
 
-            string fileName = string.Format("{0}{1}", form.Code, Path.GetExtension(form.Image.FileName));
+            string fileName = string.Format("{0}_1{1}", form.Code, Path.GetExtension(form.Image.FileName));
             ResultDTO result = _procedureHelper.GetData<ResultDTO>(
                 "product_table_create", new
                 {
@@ -52,7 +53,26 @@ namespace aspnetcore.Services
             MyFileStream fileStream = new MyFileStream();
             fileStream.ConvertFromIFormFile(form.Image);
             fileStream.FileName = fileName;
-            fileStream.SaveProductImage();
+            fileStream.CreateProductImage();
+
+            return (ResultCode.SUCCESS, productID);
+        }
+
+        public (ResultCode, int?) Delete(int id)
+        {
+            ResultDTO result = _procedureHelper.GetData<ResultDTO>(
+                "product_table_delete", new { ID = id }).FirstOrDefault();
+            int productID = result.Result;
+            if (0 > productID)
+                return ((ResultCode)Math.Abs(productID), null);
+
+            ProductQueryRequest filter = new ProductQueryRequest { ID = id };
+            ProductQueryDTO productDTO = _procedureHelper.GetData<ProductQueryDTO>(
+                "product_table_query", filter).FirstOrDefault();
+            string fileName = Path.GetFileName(productDTO.ImageURL);
+            MyFileStream fileStream = new MyFileStream();
+            fileStream.FileName = fileName;
+            fileStream.DeleteProductImage();
 
             return (ResultCode.SUCCESS, productID);
         }

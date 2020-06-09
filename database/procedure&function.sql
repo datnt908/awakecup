@@ -455,6 +455,7 @@ BEGIN
             AND (",@CategoryID," IS NULL OR ",@CategoryID," = `CategoryID`)
             AND (",@PriceFrom," IS NULL OR ",@PriceFrom," <= `Price`)
             AND (",@PriceTo," IS NULL OR ",@PriceTo," >= `Price`)
+            AND (1 = `RecordStatus`)
             AND (
                 is_substr(",@Search,", `Code`) > 0
                 OR is_substr(",@Search,", `ProductTitle`) > 0
@@ -689,11 +690,11 @@ product_create:BEGIN
 		SELECT -15 Result, 'Invalid Product information' ErrorDesc;
 		LEAVE product_create;
     END IF;
-    IF EXISTS (SELECT 1 FROM `product` WHERE _Code = `Code`) THEN
+    IF EXISTS (SELECT 1 FROM `product` WHERE _Code = `Code` AND 1 = `RecordStatus`) THEN
 		SELECT -8 Result, 'Duplicated product code for insert product' ErrorDesc;
 		LEAVE product_create;
 	END IF;
-    IF EXISTS (SELECT 1 FROM `product` WHERE _Title = `ProductTitle`) THEN
+    IF EXISTS (SELECT 1 FROM `product` WHERE _Title = `ProductTitle` AND 1 = `RecordStatus`) THEN
 		SELECT -8 Result, 'Duplicated product title for insert product' ErrorDesc;
 		LEAVE product_create;
 	END IF;
@@ -719,11 +720,11 @@ DROP procedure IF EXISTS `product_table_delete`;
 DELIMITER $$
 CREATE PROCEDURE `product_table_delete` (_ID INT)
 product_delete:BEGIN
-    IF NOT EXISTS (SELECT 1 FROM `product` WHERE _ID = `ID`) THEN
+    IF NOT EXISTS (SELECT 1 FROM `product` WHERE _ID = `ID` AND 1 = `RecordStatus`) THEN
 		SELECT -7 Result, 'Not found product for delete product' ErrorDesc;
 		LEAVE product_delete;
 	END IF;
-    DELETE FROM `product` WHERE _ID = `ID`;
+    UPDATE `product` SET `RecordStatus` = 0 WHERE _ID = `ID` AND 1 = `RecordStatus`;
 
     SELECT _ID Result, 'Last product ID deleted' ErrorDesc;
 END$$

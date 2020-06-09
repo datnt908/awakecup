@@ -14,4 +14,7 @@ export default (theme) => ({
     spacer: {
         flexGrow: 1
     },
+    toolbarBtn: {
+        marginLeft: theme.spacing(2),
+    }
 });

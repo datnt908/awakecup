@@ -346,3 +346,32 @@ async function ProductAPIsService_Create(formData, token) {
         throw error;
     }
 }
+
+async function ProductAPIsService_Delete(id, token) {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
+    var requestOptions = {
+        method: 'DELETE',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    const apiEndpoint = `${DOMAIN}/Products/Delete?id=${id}`;
+    console.log(apiEndpoint)
+
+    try {
+        const response = await fetch(apiEndpoint, requestOptions);
+        switch (response.status) {
+            case 200:
+            case 404:
+            case 500:
+                const json = await response.json();
+                return { statusCode: response.status, json };
+            default:
+                throw response;
+        }
+    } catch (error) {
+        throw error;
+    }
+}

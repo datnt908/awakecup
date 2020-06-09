@@ -53,7 +53,7 @@ namespace aspnetcore.Helpers
             _dictionary.Add(ResultCode.ORDER_NOT_FOUND, new KeyValuePair<int, Result>(
                 500, new Result { Code = ResultCode.ORDER_NOT_FOUND, Message = "Bad Request", Detail = "Not found order for insert cart detail" }));
             _dictionary.Add(ResultCode.PRODUCT_NOT_FOUND, new KeyValuePair<int, Result>(
-                404, new Result { Code = ResultCode.PRODUCT_NOT_FOUND, Message = "Not Found", Detail = "Not found product for insert cart detail" }));
+                404, new Result { Code = ResultCode.PRODUCT_NOT_FOUND, Message = "Not Found", Detail = "Not found product" }));
             _dictionary.Add(ResultCode.PRODUCT_DUPLICATED, new KeyValuePair<int, Result>(
                 400, new Result { Code = ResultCode.PRODUCT_DUPLICATED, Message = "Bad Request", Detail = "Duplicated product for insert" }));
             _dictionary.Add(ResultCode.EMPTY_ORDER_CART, new KeyValuePair<int, Result>(
