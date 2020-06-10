@@ -24,6 +24,7 @@ namespace aspnetcore.Helpers
 
         public void ConvertFromIFormFile(IFormFile formFile)
         {
+            if (null == formFile) return;
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 formFile.CopyTo(memoryStream);
@@ -54,6 +55,29 @@ namespace aspnetcore.Helpers
                 File.Delete(newFilePath);
             if (File.Exists(filePath))
                 File.Move(filePath, newFilePath);
+        }
+
+        public void UpdateProductImage(string oldFileName)
+        {
+            string prefixPath = prefixPaths["ProductImages"];
+            string filePath = Path.Combine(
+                Directory.GetCurrentDirectory(), prefixPath, FileName);
+            string oldFilePath = Path.Combine(
+                Directory.GetCurrentDirectory(), prefixPath, oldFileName);
+
+            if (null == FileContent || 0 == FileContent.Length)
+            {
+                if (File.Exists(filePath))
+                    File.Delete(filePath);
+                if (File.Exists(oldFilePath))
+                    File.Move(oldFilePath, filePath);
+            }
+            else
+            {
+                if (!Directory.Exists(Path.GetDirectoryName(filePath)))
+                    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+                File.WriteAllBytes(filePath, FileContent);
+            }
         }
     }
 }

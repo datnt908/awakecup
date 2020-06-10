@@ -375,3 +375,42 @@ async function ProductAPIsService_Delete(id, token) {
         throw error;
     }
 }
+
+async function ProductAPIsService_Update(formData, token) {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
+    var formdata = new FormData();
+    formdata.append("ID", formData.ID);
+    formdata.append("Code", formData.Code);
+    formdata.append("Title", formData.Title);
+    formdata.append("Description", formData.Description);
+    formdata.append("CategoryID", formData.CategoryID);
+    formdata.append("Price", formData.Price);
+    formdata.append("Image", formData.Image);
+
+    var requestOptions = {
+        method: 'PUT',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow'
+    };
+
+    const apiEndpoint = `${DOMAIN}/Products/Update`;
+
+    try {
+        const response = await fetch(apiEndpoint, requestOptions);
+        switch (response.status) {
+            case 200:
+            case 400:
+            case 404:
+            case 500:
+                const json = await response.json();
+                return { statusCode: response.status, json };
+            default:
+                throw response;
+        }
+    } catch (error) {
+        throw error;
+    }
+}

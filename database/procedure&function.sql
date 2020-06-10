@@ -730,3 +730,57 @@ product_delete:BEGIN
 END$$
 
 DELIMITER ;
+
+-- create product_table_update procedure
+DROP procedure IF EXISTS `product_table_update`;
+
+DELIMITER $$
+CREATE PROCEDURE `product_table_update` (
+    _ID INT, _Code VARCHAR(8), _Title VARCHAR(32), _Description VARCHAR(1024), _CategoryID INT, _Price INT, _ImageURL VARCHAR(256)
+)
+product_update:BEGIN
+    -- preprocessing input params
+    SET _Code = LTRIM(RTRIM(_Code));
+    SET _Title = LTRIM(RTRIM(_Title));
+    SET _Description = LTRIM(RTRIM(_Description));
+    SET _ImageURL = LTRIM(RTRIM(_ImageURL));
+    IF _Code IS NULL THEN SET _Code = ''; END IF;
+    IF _Title IS NULL THEN SET _Title = ''; END IF;
+    IF _Description IS NULL THEN SET _Description = ''; END IF;
+    IF _ImageURL IS NULL THEN SET _ImageURL = ''; END IF;
+    -- checking parameters
+    IF (
+        _ID IS NULL OR
+        _Code IS NULL OR _Code = '' OR
+        _Title IS NULL OR _Title = '' OR
+        _CategoryID IS NULL OR
+        _Price IS NULL OR
+        _ImageURL IS NULL OR _ImageURL = ''
+    ) THEN
+		SELECT -15 Result, 'Invalid Product information' ErrorDesc;
+		LEAVE product_update;
+    END IF;
+        IF NOT EXISTS (SELECT 1 FROM `product` WHERE _ID = `ID` AND 1 = `RecordStatus`) THEN
+		SELECT -7 Result, 'Not found product for update product' ErrorDesc;
+		LEAVE product_update;
+	END IF;
+    IF EXISTS (SELECT 1 FROM `product` WHERE _Code = `Code` AND 1 = `RecordStatus` AND _ID <> `ID`) THEN
+		SELECT -8 Result, 'Duplicated product code for update product' ErrorDesc;
+		LEAVE product_update;
+	END IF;
+    IF EXISTS (SELECT 1 FROM `product` WHERE _Title = `ProductTitle` AND 1 = `RecordStatus` AND _ID <> `ID`) THEN
+		SELECT -8 Result, 'Duplicated product title for update product' ErrorDesc;
+		LEAVE product_update;
+	END IF;
+    IF NOT EXISTS (SELECT 1 FROM `category` WHERE _CategoryID = `ID`) THEN
+		SELECT -16 Result, 'Not found category for update product' ErrorDesc;
+		LEAVE product_update;
+	END IF;
+    -- create new product
+    UPDATE `product` SET `Code` = _Code, `ProductTitle` = _Title, `Description` = _Description, `CategoryID` = _CategoryID, `Price` = _Price, `ImageURL` = _ImageURL
+    WHERE _ID = `ID` AND 1 = `RecordStatus`;
+
+    SELECT _ID Result, 'Last product ID updated' ErrorDesc;
+END$$
+
+DELIMITER ;

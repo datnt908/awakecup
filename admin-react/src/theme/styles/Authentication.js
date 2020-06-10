@@ -1,3 +1,5 @@
+import auth_bg from '../../assets/images/auth_bg.jpg'
+
 export default (theme) => ({
     root: {
         backgroundColor: theme.palette.background.default,
@@ -21,7 +23,7 @@ export default (theme) => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundImage: 'url(../images/auth_bg.jpg)',
+        backgroundImage: `url(${auth_bg})`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center'

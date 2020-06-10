@@ -64,7 +64,7 @@ class EnhancedTable extends Component {
           />
           <TableBody>
             {this.props.rows.map((row) => (
-              <TableRow key={row.id} hover>
+              <TableRow key={row.id} hover onClick={() => this.handleSelectItem(row.id)}>
                 <TableCell padding="checkbox">
                   <Checkbox checked={isSelected(this.state.selected, row.id)}
                     onClick={() => this.handleSelectItem(row.id)}

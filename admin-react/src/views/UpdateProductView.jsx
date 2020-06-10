@@ -14,10 +14,10 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 //
 import DEFAULT_IMG from '../assets/images/product_default_img.jpg'
-import { getCookiesValue } from '../utils/helpers'
+import { getCookiesValue, DOMAIN } from '../utils/helpers'
 import { notify } from '../components/Notification';
 
-class CreateProductView extends Component {
+class UpdateProductView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,10 +25,17 @@ class CreateProductView extends Component {
       imgSrc: '',
       categories: [],
       selectedCate: 0,
+      product: null,
     }
 
     window.CategoryAPIsService_Query({ PageSize: 50 })
       .then(result => this.setState({ categories: result.json.result.items }))
+      .then(() => window.ProductAPIsService_Search({ Code: this.props.match.params.productCode }))
+      .then(result => this.setState({
+        product: result.json.result.items[0],
+        imgSrc: `${DOMAIN}/${result.json.result.items[0].imageURL}`,
+        selectedCate: result.json.result.items[0].category.id,
+      }))
       .catch(error => console.log(error));
   }
 
@@ -44,8 +51,9 @@ class CreateProductView extends Component {
     reader.readAsDataURL(file);
   }
 
-  handleCreateClick() {
+  handleUpdateClick() {
     const formData = {
+      ID: this.state.product.id,
       Code: document.getElementById('product-code').value,
       Title: document.getElementById('product-title').value,
       Description: document.getElementById('product-desc').value,
@@ -56,7 +64,7 @@ class CreateProductView extends Component {
 
     if (isNaN(formData.Price)) formData.Price = 0;
 
-    window.ProductAPIsService_Create(formData, getCookiesValue('authToken'))
+    window.ProductAPIsService_Update(formData, getCookiesValue('authToken'))
       .then(result => {
         switch (result.statusCode) {
           case 400:
@@ -65,23 +73,24 @@ class CreateProductView extends Component {
             notify(result.json.error.message, result.json.error.detail, "error");
             break;
           case 200:
-            notify(result.json.error.message, 'Create new Product successfull', "success");
+            notify(result.json.error.message, 'Update current Product successfull', "success");
             break;
           default:
             break;
         }
       })
       .catch(error => console.log(error));
+    console.log(formData);
   }
 
   render() {
     const { classes } = this.props;
     let { imgSrc } = this.state;
     if ('' === imgSrc) imgSrc = DEFAULT_IMG;
-
+    if (!this.state.product) return null;
     return (
       <div className={classes.root}>
-        <div className={classes.row}><Typography variant="h4">Create new Product</Typography></div>
+        <div className={classes.row}><Typography variant="h4">Update current Product</Typography></div>
         <div className={classes.content}>
           <Card>
             <CardHeader title="Products information" />
@@ -98,12 +107,20 @@ class CreateProductView extends Component {
                   <img src={imgSrc} className={classes.image} alt="product-imgfile" />
                 </Grid>
                 <Grid item xs={12} sm={6} md={8}>
-                  <TextField className={classes.input} id="product-code" fullWidth variant="outlined"
-                    label="Product Code" size='small' />
+                  <TextField className={classes.input} id="product-code" fullWidth variant="outlined" InputLabelProps={{
+                    shrink: true,
+                  }}
+                    label="Product Code" size='small'
+                    defaultValue={this.state.product.code}
+                  />
                   <TextField className={classes.input} id="product-title" fullWidth variant="outlined"
-                    label="Product Title" size='small' />
+                    label="Product Title" size='small'
+                    defaultValue={this.state.product.title}
+                  />
                   <TextField className={classes.input} id="product-desc" fullWidth variant="outlined"
-                    label="Product Description" size='small' multiline rows={5} rowsMax={16} />
+                    label="Product Description" size='small' multiline rows={5} rowsMax={16}
+                    defaultValue={this.state.product.description}
+                  />
                   <TextField className={classes.input} id="product-cate" fullWidth variant="outlined"
                     label="Product Category" size='small'
                     select value={this.state.selectedCate}
@@ -116,7 +133,9 @@ class CreateProductView extends Component {
                     ))}
                   </TextField>
                   <TextField className={classes.input} id="product-price" fullWidth variant="outlined"
-                    label="Product Price" size='small' type="number" />
+                    label="Product Price" size='small' type="number"
+                    defaultValue={parseInt(this.state.product.price, 10)}
+                  />
                 </Grid>
               </Grid>
             </CardContent>
@@ -128,9 +147,9 @@ class CreateProductView extends Component {
                   <Button className={classes.cancelButton}>Cancel</Button>
                 </Link>
                 <Button color="primary" variant="contained"
-                  onClick={() => this.handleCreateClick()}
+                  onClick={() => this.handleUpdateClick()}
                 >
-                  Create
+                  Update
                 </Button>
               </div>
             </CardActions>
@@ -141,4 +160,4 @@ class CreateProductView extends Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(CreateProductView);
+export default withStyles(styles, { withTheme: true })(UpdateProductView);

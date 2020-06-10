@@ -101,5 +101,29 @@ namespace aspnetcore.Controllers
             };
             return StatusCode(statusCode, response);
         }
+
+        [HttpPut]
+        [Authorize]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public IActionResult Update([FromForm] ProductUpdateRequest form)
+        {
+            ResultCode resultCode; int? productID;
+            (resultCode, productID) = _service.Update(form);
+
+            Result error; int statusCode;
+            (statusCode, error) = ResultHandler.GetStatusCodeAndResult(resultCode);
+
+            GeneralResponse response = new GeneralResponse
+            {
+                Result = productID,
+                Error = error,
+            };
+            return StatusCode(statusCode, response);
+        }
+
     }
 }

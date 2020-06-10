@@ -15,6 +15,7 @@ namespace aspnetcore.Services
         (ResultCode, QueryModel) Search(ProductSearchRequest filter);
         (ResultCode, int?) Create(ProductCreateRequest form);
         (ResultCode, int?) Delete(int id);
+        (ResultCode, int?) Update(ProductUpdateRequest form);
     }
     public class ProductsService : BaseService, IProductsService
     {
@@ -44,7 +45,7 @@ namespace aspnetcore.Services
                     Description = form.Description,
                     CategoryID = form.CategoryID,
                     Price = form.Price,
-                    ImageURL = fileName
+                    ImageURL = "appdata/products/" + fileName,
                 }).FirstOrDefault();
             int productID = result.Result;
             if (0 > productID)
@@ -103,6 +104,57 @@ namespace aspnetcore.Services
             }
             queryResult.Items = products;
             return (ResultCode.SUCCESS, queryResult);
+        }
+
+        public (ResultCode, int?) Update(ProductUpdateRequest form)
+        {
+            if (string.IsNullOrEmpty(form.Code))
+                return (ResultCode.EMPTY_PRODUCT_CODE, null);
+            if (string.IsNullOrEmpty(form.Title))
+                return (ResultCode.EMPTY_PRODUCT_TITLE, null);
+            if (
+                form.Code.Length > 8 ||
+                form.Title.Length > 32 ||
+                (null != form.Description && form.Description.Length > 1024) ||
+                (null != form.Image &&
+                Path.GetExtension(form.Image.FileName).ToLower() != ".jpg" &&
+                Path.GetExtension(form.Image.FileName).ToLower() != ".png")
+            )
+                return (ResultCode.PRODUCT_INFO_INVALID, null);
+
+            ProductQueryRequest filter = new ProductQueryRequest { ID = form.ID };
+            ProductQueryDTO productDTO = _procedureHelper.GetData<ProductQueryDTO>(
+                "product_table_query", filter).FirstOrDefault();
+            if (null == productDTO)
+                return (ResultCode.PRODUCT_NOT_FOUND, null);
+
+            string oldFileName = Path.GetFileName(productDTO.ImageURL);
+            string fileName;
+            if (null != form.Image)
+                fileName = string.Format("{0}_1{1}", form.Code, Path.GetExtension(form.Image.FileName));
+            else
+                fileName = string.Format("{0}_1{1}", form.Code, Path.GetExtension(oldFileName));
+            ResultDTO result = _procedureHelper.GetData<ResultDTO>(
+                "product_table_update", new
+                {
+                    ID = form.ID,
+                    Code = form.Code,
+                    Title = form.Title,
+                    Description = form.Description,
+                    CategoryID = form.CategoryID,
+                    Price = form.Price,
+                    ImageURL = "appdata/products/" + fileName,
+                }).FirstOrDefault();
+            int productID = result.Result;
+            if (0 > productID)
+                return ((ResultCode)Math.Abs(productID), null);
+
+            MyFileStream fileStream = new MyFileStream();
+            fileStream.ConvertFromIFormFile(form.Image);
+            fileStream.FileName = fileName;
+            fileStream.UpdateProductImage(oldFileName);
+
+            return (ResultCode.SUCCESS, productID);
         }
     }
 }

@@ -123,6 +123,7 @@ class ProductsView extends Component {
 
   render() {
     const { classes } = this.props;
+    const productCode = this.state.selected[0] ? getProductsByID(this.state.products, this.state.selected[0]).code : 'PRO00000';
     return (
       <div className={classes.root}>
         <div className={classes.row}>
@@ -133,9 +134,11 @@ class ProductsView extends Component {
           >
             Delete
           </Button>
-          <Button variant="text" className={classes.toolbarBtn} disabled={1 !== this.state.selected.length}>
-            Detail
-          </Button>
+          <Link to={`/admin/products/update-${productCode}`} style={{ textDecoration: 'none' }}>
+            <Button variant="text" className={classes.toolbarBtn} disabled={1 !== this.state.selected.length}>
+              Update
+            </Button>
+          </Link>
           <Link to="/admin/products/create" style={{ textDecoration: 'none' }}>
             <Button variant="contained" className={classes.toolbarBtn} color="primary">Create</Button>
           </Link>
@@ -237,4 +240,8 @@ function convertProductsToDataTable(products) {
     categoryTitle: item.category.title,
   }));
   return products;
+}
+
+function getProductsByID(products, id) {
+  return products.find(product => product.id === id);
 }
