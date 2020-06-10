@@ -13,6 +13,7 @@ namespace aspnetcore.Services
         (ResultCode, QueryModel) Query(OrderQueryRequest filter);
         (ResultCode, QueryModel) Search(OrderSearchRequest filter);
         (ResultCode, string) Create(OrderCreateRequest body);
+        (ResultCode, int?) UpdateStatus(OrderUpdateStatusRequest parameters);
 
     }
     public class OrdersService : BaseService, IOrdersService
@@ -21,11 +22,11 @@ namespace aspnetcore.Services
         {
             if (0 == body.Cart.CartDetails.Count)
                 return (ResultCode.EMPTY_ORDER_CART, null);
-            if ("" == body.Firstname || "" == body.Lastname)
+            if (string.IsNullOrEmpty(body.Firstname) || string.IsNullOrEmpty(body.Lastname))
                 return (ResultCode.EMPTY_ORDER_NAME, null);
-            if ("" == body.Phone)
+            if (string.IsNullOrEmpty(body.Phone))
                 return (ResultCode.EMPTY_ORDER_PHONE, null);
-            if ("" == body.Address)
+            if (string.IsNullOrEmpty(body.Address))
                 return (ResultCode.EMPTY_ORDER_ADDR, null);
             if (
                 body.Firstname.Length > 32 ||
@@ -94,11 +95,26 @@ namespace aspnetcore.Services
             List<OrderModel> orders = new List<OrderModel>();
             foreach (var item in orderDTOs)
             {
-                OrderModel order = new OrderModel(item);
+                List<CartDetailSearchDTO> cartDetailDTOs = _procedureHelper.GetData<CartDetailSearchDTO>(
+                    "cart_detail_table_search", new { OrderID = item.ID });
+                OrderModel order = new OrderModel(item, cartDetailDTOs);
                 orders.Add(order);
             }
             queryResult.Items = orders;
             return (ResultCode.SUCCESS, queryResult);
+        }
+
+        public (ResultCode, int?) UpdateStatus(OrderUpdateStatusRequest parameters)
+        {
+            ResultDTO result = _procedureHelper.GetData<ResultDTO>(
+                "order_table_update_status", new
+                {
+                    ID = parameters.ID,
+                    StatusID = parameters.StatusID
+                }).FirstOrDefault();
+            if (0 > result.Result)
+                return ((ResultCode)Math.Abs(result.Result), null);
+            return (ResultCode.SUCCESS, result.Result);
         }
     }
 }

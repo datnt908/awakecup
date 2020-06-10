@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 // material-ui
 import { withStyles } from '@material-ui/core/styles';
 import styles from '../theme/styles/ProductsView';
@@ -19,6 +20,10 @@ import Slider from '@material-ui/core/Slider';
 
 // core components
 import EnhancedTable from '../components/EnhancedTable';
+import ConfirmDialog from '../components/ConfirmDialog'
+//
+import { getCookiesValue } from '../utils/helpers'
+import { notify } from '../components/Notification';
 
 class ProductsView extends Component {
   constructor(props) {
@@ -32,6 +37,8 @@ class ProductsView extends Component {
       sorting: 'id asc',
       pageNo: 1,
       pageSize: 5,
+      selected: [],
+      openDeleteDialog: false,
     }
 
     window.CategoryAPIsService_Query({ PageSize: 50 })
@@ -84,11 +91,58 @@ class ProductsView extends Component {
     this.getProducts({ Sorting: this.state.sorting, PageNo: this.state.pageNo, PageSize: pageSize, });
   }
 
+  handleChangeSelected = (selected) => {
+    this.setState({ selected: selected });
+  }
+
+  handleDeleteSelected = async () => {
+    let isSuccess = true;
+    for (let index = 0; index < this.state.selected.length; index++) {
+      const id = this.state.selected[index];
+      try {
+        const result = await window.ProductAPIsService_Delete(id, getCookiesValue('authToken'))
+        switch (result.statusCode) {
+          case 400:
+          case 401:
+          case 404:
+          case 500:
+            isSuccess = false;
+            break;
+          default:
+            break;
+        }
+      } catch (error) { console.log(error); isSuccess = false; }
+    }
+    if (isSuccess)
+      notify("Success", 'Delete selected product(s) successfull', "success");
+    else
+      notify("Error", 'Delete selected product(s) has one or more error', "error");
+    this.setState({ openDeleteDialog: false, selected: [] });
+    this.getProducts({ Sorting: this.state.sorting, PageNo: this.state.pageNo, PageSize: this.state.pageSize, });
+  }
+
   render() {
     const { classes } = this.props;
+    const productCode = this.state.selected[0] ? getProductsByID(this.state.products, this.state.selected[0]).code : 'PRO00000';
     return (
       <div className={classes.root}>
-        Products
+        <div className={classes.row}>
+          <Typography variant="h4">Products</Typography>
+          <span className={classes.spacer} />
+          <Button variant="text" className={classes.toolbarBtn} disabled={0 === this.state.selected.length}
+            onClick={() => this.setState({ openDeleteDialog: true })}
+          >
+            Delete
+          </Button>
+          <Link to={`/admin/products/update-${productCode}`} style={{ textDecoration: 'none' }}>
+            <Button variant="text" className={classes.toolbarBtn} disabled={1 !== this.state.selected.length}>
+              Update
+            </Button>
+          </Link>
+          <Link to="/admin/products/create" style={{ textDecoration: 'none' }}>
+            <Button variant="contained" className={classes.toolbarBtn} color="primary">Create</Button>
+          </Link>
+        </div>
         <div className={classes.content}>
           <Card>
             <CardHeader title="Products filter" />
@@ -120,7 +174,7 @@ class ProductsView extends Component {
                     <TextField id="product-title" fullWidth variant="outlined" label="Product Title" size='small' />
                   </Grid>
                   <Grid item xs={12} sm={6} md={3}>
-                    <TextField id="product-category" fullWidth variant="outlined" label="Product Category" size='small'
+                    <TextField id="product-cate" fullWidth variant="outlined" label="Product Category" size='small'
                       select value={this.state.selectedCate}
                       onChange={e => this.setState({ selectedCate: parseInt(e.target.value, 10) })}
                       SelectProps={{ native: true }}
@@ -154,8 +208,17 @@ class ProductsView extends Component {
             onChangePage={page => this.handlePageChange(page)}
             rowsPerPage={this.state.pageSize}
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            onChangeSelected={this.handleChangeSelected}
           />
         </div>
+        <ConfirmDialog
+          open={this.state.openDeleteDialog}
+          title="Delete selected product(s)?"
+          description="Are you sure you want to delete this product(s)?"
+          onClose={() => this.setState({ openDeleteDialog: false })}
+          onDisagree={() => this.setState({ openDeleteDialog: false })}
+          onAgree={this.handleDeleteSelected}
+        />
       </div>
     );
   }
@@ -164,7 +227,6 @@ class ProductsView extends Component {
 export default withStyles(styles, { withTheme: true })(ProductsView);
 
 const headCells = [
-  { id: 'id', numeric: true, label: 'ID' },
   { id: 'code', numeric: false, label: 'Code' },
   { id: 'productTitle', numeric: false, label: 'Product Title' },
   { id: 'price', numeric: true, label: 'Price' },
@@ -178,4 +240,8 @@ function convertProductsToDataTable(products) {
     categoryTitle: item.category.title,
   }));
   return products;
+}
+
+function getProductsByID(products, id) {
+  return products.find(product => product.id === id);
 }

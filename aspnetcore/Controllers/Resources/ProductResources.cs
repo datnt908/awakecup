@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+
 namespace aspnetcore.Controllers.Resources
 {
     public class ProductQueryRequest : BaseQueryRequest
@@ -35,6 +37,41 @@ namespace aspnetcore.Controllers.Resources
             PriceTo = null;
         }
     }
+
+    public class ProductCreateRequest
+    {
+        public string Code { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public int? CategoryID { get; set; }
+        public int? Price { get; set; }
+        public IFormFile Image { get; set; }
+        public ProductCreateRequest()
+        {
+            CategoryID = null;
+            Price = null;
+            Image = null;
+        }
+    }
+
+    public class ProductUpdateRequest
+    {
+        public int? ID { get; set; }
+        public string Code { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public int? CategoryID { get; set; }
+        public int? Price { get; set; }
+        public IFormFile Image { get; set; }
+        public ProductUpdateRequest()
+        {
+            ID = null;
+            CategoryID = null;
+            Price = null;
+            Image = null;
+        }
+    }
+
 }
 
 

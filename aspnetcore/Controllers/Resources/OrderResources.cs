@@ -81,4 +81,10 @@ namespace aspnetcore.Controllers.Resources
             TotalTo = null;
         }
     }
+
+    public class OrderUpdateStatusRequest
+    {
+        public int? ID { get; set; }
+        public int? StatusID { get; set; }
+    }
 }

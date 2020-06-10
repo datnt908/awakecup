@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom';
 const contents = {
   description: "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.",
   images: [
-    `${DOMAIN}/appdata/products/PRO00006.png`,
-    `${DOMAIN}/appdata/products/PRO00008.png`,
-    `${DOMAIN}/appdata/products/PRO00012.png`,
-    `${DOMAIN}/appdata/products/PRO00022.png`,
+    `${DOMAIN}/appdata/products/PRO00006_1.png`,
+    `${DOMAIN}/appdata/products/PRO00008_1.png`,
+    `${DOMAIN}/appdata/products/PRO00012_1.png`,
+    `${DOMAIN}/appdata/products/PRO00022_1.png`,
   ]
 };
 

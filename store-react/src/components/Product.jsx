@@ -14,21 +14,24 @@ class Product extends Component {
       product.description = product.description.substring(0, 72) + '...';
     return (
       <div className="menu-entry product">
-        <Link to="/" onClick={e => e.preventDefault()} className="img"
+        <Link to={`/product-${product.code}`} className="img"
           style={{ backgroundImage: `url(${DOMAIN}/${product.imageURL})` }}
+          onClick={() => window.scrollTo({ top: window.innerHeight - 60, behavior: 'smooth' })}
         />
         <div className="text text-center pt-4">
           <h3>
-            <a href="/" onClick={e => e.preventDefault()} >
+            <Link to={`/product-${product.code}`}
+              onClick={() => window.scrollTo({ top: window.innerHeight - 60, behavior: 'smooth' })}
+            >
               {product.title}
-            </a>
+            </Link>
           </h3>
           <p className="description">{product.description}</p>
           <p className="price"><span>{product.price} Đ</span></p>
           <p>
             <a href="/" onClick={e => {
               e.preventDefault();
-              handleAddProductToCart(product)
+              handleAddProductToCart(product);
             }}
               className="btn btn-primary btn-outline-primary"
             >

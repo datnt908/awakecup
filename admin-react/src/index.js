@@ -12,6 +12,7 @@ import Administration from './layouts/Administration';
 import Notification from './components/Notification';
 //
 import store from './redux/store';
+import './assets/css/styles.css'
 
 ReactDOM.render(
   <Provider store={store}>

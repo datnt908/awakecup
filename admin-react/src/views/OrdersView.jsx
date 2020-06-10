@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 // material-ui
 import { withStyles } from '@material-ui/core/styles';
 import styles from '../theme/styles/OrdersView';
@@ -33,6 +34,7 @@ class OrdersView extends Component {
       sorting: 'id asc',
       pageNo: 1,
       pageSize: 5,
+      selected: [],
     }
     window.OrderStatusAPIsService_Query({ PageSize: 50 })
       .then(result => this.setState({ orderStatuses: result.json.result.items }))
@@ -85,11 +87,24 @@ class OrdersView extends Component {
     this.getOrders({ Sorting: this.state.sorting, PageNo: this.state.pageNo, PageSize: pageSize, });
   }
 
+  handleChangeSelected = (selected) => {
+    this.setState({ selected: selected });
+  }
+
   render() {
     const { classes } = this.props;
+    const orderID = this.state.selected[0] ? this.state.selected[0] : '0000000001';
     return (
       <div className={classes.root}>
-        Orders
+        <div className={classes.row}>
+          <Typography variant="h4">Orders</Typography>
+          <span className={classes.spacer} />
+          <Link to={`/admin/orders/detail-${orderID}`} style={{ textDecoration: 'none' }}>
+            <Button disabled={1 !== this.state.selected.length} variant="contained" className={classes.toolbarBtn} color="primary">
+              Detail
+            </Button>
+          </Link>
+        </div>
         <div className={classes.content}>
           <Card>
             <CardHeader title="Order filter" />
@@ -158,6 +173,7 @@ class OrdersView extends Component {
             onChangePage={page => this.handlePageChange(page)}
             rowsPerPage={this.state.pageSize}
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            onChangeSelected={this.handleChangeSelected}
           />
         </div>
       </div>
@@ -172,7 +188,7 @@ OrdersView.propTypes = {
 export default withStyles(styles, { withTheme: true })(OrdersView);
 
 const headCells = [
-  { id: 'id', numeric: true, label: 'ID' },
+  { id: 'id', numeric: false, label: 'ID' },
   { id: 'firstname', numeric: false, label: 'Firstname' },
   { id: 'lastname', numeric: false, label: 'Lastname' },
   { id: 'status', numeric: false, label: 'Status' },
