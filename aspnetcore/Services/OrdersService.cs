@@ -94,7 +94,9 @@ namespace aspnetcore.Services
             List<OrderModel> orders = new List<OrderModel>();
             foreach (var item in orderDTOs)
             {
-                OrderModel order = new OrderModel(item);
+                List<CartDetailSearchDTO> cartDetailDTOs = _procedureHelper.GetData<CartDetailSearchDTO>(
+                    "cart_detail_table_search", new { OrderID = item.ID });
+                OrderModel order = new OrderModel(item, cartDetailDTOs);
                 orders.Add(order);
             }
             queryResult.Items = orders;

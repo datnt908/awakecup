@@ -784,3 +784,16 @@ product_update:BEGIN
 END$$
 
 DELIMITER ;
+
+-- create cart_detail_table_search procedure
+DROP procedure IF EXISTS `cart_detail_table_search`;
+
+DELIMITER $$
+CREATE PROCEDURE `cart_detail_table_search` (_OrderID INT)
+BEGIN
+    SELECT `cart_detail`.*, `product`.`Code`, `product`.`ProductTitle`, `CategoryTitle` 
+    FROM awakecup.cart_detail, awakecup.product, awakecup.category 
+    WHERE `product`.`ID` = `cart_detail`.`ProductID` AND `category`.`ID` = `product`.`CategoryID` AND _OrderID = `OrderID`;
+END$$
+
+DELIMITER ;

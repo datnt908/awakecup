@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // material-ui
+import { withStyles } from '@material-ui/core/styles';
+import styles from '../../theme/styles/EnhancedTable';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -52,9 +54,10 @@ class EnhancedTable extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <TableContainer component={Paper}>
-        <Table aria-label="simple table">
+        <Table aria-label="simple table" className={classes.table}>
           <EnhancedTableHead
             headCells={this.props.headCells}
             onRequestSort={this.props.onRequestSort}
@@ -112,7 +115,7 @@ EnhancedTable.propTypes = {
   onChangeSelected: PropTypes.func.isRequired,
 };
 
-export default EnhancedTable;
+export default withStyles(styles, { withTheme: true })(EnhancedTable);
 
 function isSelected(selected, id) {
   return selected.indexOf(id) !== -1;
