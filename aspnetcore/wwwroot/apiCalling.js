@@ -414,3 +414,32 @@ async function ProductAPIsService_Update(formData, token) {
         throw error;
     }
 }
+
+async function OrderAPIsService_UpdateStatus(queryObject, token) {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
+    var requestOptions = {
+        method: 'PATCH',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    const queryString = serializeQueryString(queryObject);
+    const apiEndpoint = `${DOMAIN}/Orders/UpdateStatus`;
+
+    try {
+        const response = await fetch(`${apiEndpoint}?${queryString}`, requestOptions);
+        switch (response.status) {
+            case 200:
+            case 404:
+            case 500:
+                const json = await response.json();
+                return { statusCode: response.status, json };
+            default:
+                throw response;
+        }
+    } catch (error) {
+        throw error;
+    }
+}

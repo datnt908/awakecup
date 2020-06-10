@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using aspnetcore.Services.Models;
 using aspnetcore.Services;
 using aspnetcore.Repositories.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace aspnetcore.Controllers
 {
@@ -72,6 +73,28 @@ namespace aspnetcore.Controllers
             GeneralResponse response = new GeneralResponse
             {
                 Result = queryResult,
+                Error = error,
+            };
+            return StatusCode(statusCode, response);
+        }
+
+        [HttpPatch]
+        [Authorize]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public IActionResult UpdateStatus([FromQuery] OrderUpdateStatusRequest parameters)
+        {
+            ResultCode resultCode; int? result;
+            (resultCode, result) = _service.UpdateStatus(parameters);
+
+            Result error; int statusCode;
+            (statusCode, error) = ResultHandler.GetStatusCodeAndResult(resultCode);
+
+            GeneralResponse response = new GeneralResponse
+            {
+                Result = result,
                 Error = error,
             };
             return StatusCode(statusCode, response);

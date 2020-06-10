@@ -41,7 +41,7 @@ namespace aspnetcore.Helpers
             _dictionary.Add(ResultCode.SUCCESS, new KeyValuePair<int, Result>(
                 200, new Result { Code = ResultCode.SUCCESS, Message = "Success", Detail = "" }));
             _dictionary.Add(ResultCode.ORDER_STT_NOT_FOUND, new KeyValuePair<int, Result>(
-                500, new Result { Code = ResultCode.ORDER_STT_NOT_FOUND, Message = "Bad Request", Detail = "Not found order status for insert order" }));
+                500, new Result { Code = ResultCode.ORDER_STT_NOT_FOUND, Message = "Bad Request", Detail = "Not found order status" }));
             _dictionary.Add(ResultCode.ORDER_INFO_INVALID, new KeyValuePair<int, Result>(
                 400, new Result { Code = ResultCode.ORDER_INFO_INVALID, Message = "Bad Request", Detail = "Invalid Order information" }));
             _dictionary.Add(ResultCode.PROVINCE_NOT_FOUND, new KeyValuePair<int, Result>(
@@ -51,7 +51,7 @@ namespace aspnetcore.Helpers
             _dictionary.Add(ResultCode.COMMUNE_NOT_FOUND, new KeyValuePair<int, Result>(
                 404, new Result { Code = ResultCode.COMMUNE_NOT_FOUND, Message = "Not Found", Detail = "Not found commune for insert order" }));
             _dictionary.Add(ResultCode.ORDER_NOT_FOUND, new KeyValuePair<int, Result>(
-                500, new Result { Code = ResultCode.ORDER_NOT_FOUND, Message = "Bad Request", Detail = "Not found order for insert cart detail" }));
+                500, new Result { Code = ResultCode.ORDER_NOT_FOUND, Message = "Bad Request", Detail = "Not found order" }));
             _dictionary.Add(ResultCode.PRODUCT_NOT_FOUND, new KeyValuePair<int, Result>(
                 404, new Result { Code = ResultCode.PRODUCT_NOT_FOUND, Message = "Not Found", Detail = "Not found product" }));
             _dictionary.Add(ResultCode.PRODUCT_DUPLICATED, new KeyValuePair<int, Result>(

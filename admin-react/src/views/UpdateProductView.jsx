@@ -80,7 +80,6 @@ class UpdateProductView extends Component {
         }
       })
       .catch(error => console.log(error));
-    console.log(formData);
   }
 
   render() {

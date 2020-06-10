@@ -13,6 +13,7 @@ namespace aspnetcore.Services
         (ResultCode, QueryModel) Query(OrderQueryRequest filter);
         (ResultCode, QueryModel) Search(OrderSearchRequest filter);
         (ResultCode, string) Create(OrderCreateRequest body);
+        (ResultCode, int?) UpdateStatus(OrderUpdateStatusRequest parameters);
 
     }
     public class OrdersService : BaseService, IOrdersService
@@ -101,6 +102,19 @@ namespace aspnetcore.Services
             }
             queryResult.Items = orders;
             return (ResultCode.SUCCESS, queryResult);
+        }
+
+        public (ResultCode, int?) UpdateStatus(OrderUpdateStatusRequest parameters)
+        {
+            ResultDTO result = _procedureHelper.GetData<ResultDTO>(
+                "order_table_update_status", new
+                {
+                    ID = parameters.ID,
+                    StatusID = parameters.StatusID
+                }).FirstOrDefault();
+            if (0 > result.Result)
+                return ((ResultCode)Math.Abs(result.Result), null);
+            return (ResultCode.SUCCESS, result.Result);
         }
     }
 }

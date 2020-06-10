@@ -797,3 +797,27 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+-- create order_table_update_status procedure
+DROP procedure IF EXISTS `order_table_update_status`;
+
+DELIMITER $$
+CREATE PROCEDURE `order_table_update_status` (
+    _ID INT, _StatusID INT
+)
+order_update:BEGIN
+    -- checking parameters
+    IF NOT EXISTS (SELECT 1 FROM `order` WHERE _ID = `ID`) THEN
+		SELECT -6 Result, 'Not found order for update status' ErrorDesc;
+		LEAVE order_update;
+	END IF;
+    IF NOT EXISTS (SELECT 1 FROM `order_status` WHERE _StatusID = `ID`) THEN
+		SELECT -1 Result, 'Not found order status for insert order' ErrorDesc;
+		LEAVE order_update;
+	END IF;
+    
+    UPDATE `order` SET `StatusID` = _StatusID WHERE `ID` = _ID;
+    SELECT _ID Result, 'Last order ID updated' ErrorDesc;
+END$$
+
+DELIMITER ;
